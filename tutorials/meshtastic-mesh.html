@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developing a Decentralized Mesh Network with Meshtastic | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link active">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon">✉</span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
+        <h1>Developing a Decentralized Mesh Network with Meshtastic</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">Meshtastic</span>
+            <span class="tutorial-tag">LoRa</span>
+            <span class="tutorial-tag difficulty-intermediate">Intermediate</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            Build a resilient, off-grid communication network that works without internet or cell towers.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <h2>What is Meshtastic?</h2>
+        <p>
+            Meshtastic is an open-source project that turns inexpensive LoRa radios into a long-range, 
+            decentralized mesh network for text messaging. Messages hop from node to node, extending 
+            range far beyond what a single radio could achieve.
+        </p>
+        <p>
+            Key features:
+        </p>
+        <ul>
+            <li><strong>No infrastructure required</strong> — Works without internet, cell towers, or any central server</li>
+            <li><strong>Long range</strong> — Individual nodes can communicate 1-10+ miles depending on terrain</li>
+            <li><strong>Low power</strong> — Nodes can run for days on a small battery</li>
+            <li><strong>Encrypted</strong> — Messages are encrypted by default</li>
+            <li><strong>Mesh networking</strong> — Messages automatically route through intermediate nodes</li>
+            <li><strong>Free to use</strong> — Uses license-free ISM radio bands</li>
+        </ul>
+
+        <div class="materials-list">
+            <h3>What You'll Need</h3>
+            <ul>
+                <li><strong>LoRa radio devices</strong> (at least 2 to start):
+                    <ul>
+                        <li>Heltec LoRa 32 V3 (~$20)</li>
+                        <li>LILYGO T-Beam (~$35, includes GPS)</li>
+                        <li>RAK WisBlock (~$30)</li>
+                    </ul>
+                </li>
+                <li><strong>USB cables</strong> for flashing and charging</li>
+                <li><strong>Smartphone</strong> with Meshtastic app (iOS or Android)</li>
+                <li><strong>Computer</strong> for initial firmware flashing</li>
+                <li><strong>Antennas</strong> (devices usually include basic antennas)</li>
+                <li><strong>Cases</strong> (optional, for outdoor deployment)</li>
+            </ul>
+        </div>
+
+        <h2>Understanding the Mesh</h2>
+        <p>
+            Before we build, let's understand how Meshtastic works:
+        </p>
+        
+        <h3>How Messages Travel</h3>
+        <ol>
+            <li>You type a message on your phone</li>
+            <li>Phone sends it via Bluetooth to your Meshtastic node</li>
+            <li>Your node broadcasts the message over LoRa radio</li>
+            <li>Nearby nodes receive and rebroadcast the message</li>
+            <li>This continues until the message reaches its destination</li>
+            <li>Each node only rebroadcasts messages it hasn't seen before</li>
+        </ol>
+
+        <h3>Node Roles</h3>
+        <ul>
+            <li><strong>Client</strong> — Standard node, paired with a phone</li>
+            <li><strong>Router</strong> — Dedicated relay node, no phone needed</li>
+            <li><strong>Client + Router</strong> — Does both</li>
+        </ul>
+
+        <div class="info-box">
+            <div class="info-box-title">📡 Range Expectations</div>
+            <p>Line-of-sight: 5-15+ miles. Urban/forested: 0.5-2 miles. Elevated nodes dramatically improve range. A node on a hilltop or tall building can serve as a powerful relay.</p>
+        </div>
+
+        <h2>Step 1: Flash the Firmware</h2>
+        <p>
+            First, we need to install Meshtastic firmware on your LoRa devices.
+        </p>
+        
+        <h3>Using the Web Flasher (Easiest)</h3>
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Connect Your Device</h4>
+                <p>Plug your LoRa device into your computer via USB.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Open the Web Flasher</h4>
+                <p>Go to <code>flasher.meshtastic.org</code> in Chrome or Edge (must support Web Serial).</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Select Your Device</h4>
+                <p>Choose your hardware from the dropdown (e.g., "Heltec LoRa 32 V3").</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Flash</h4>
+                <p>Click "Flash" and wait for the process to complete. The device will reboot with Meshtastic installed.</p>
+            </div>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">⚠️ Driver Issues?</div>
+            <p>If your device isn't detected, you may need to install CH340 or CP210x USB drivers. Search for your specific board's driver requirements.</p>
+        </div>
+
+        <h2>Step 2: Install the Mobile App</h2>
+        <p>
+            Download the Meshtastic app for your phone:
+        </p>
+        <ul>
+            <li><strong>Android:</strong> Google Play Store → "Meshtastic"</li>
+            <li><strong>iOS:</strong> App Store → "Meshtastic"</li>
+        </ul>
+
+        <h2>Step 3: Connect and Configure</h2>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Power On Your Node</h4>
+                <p>Connect power via USB or battery. You should see the screen light up (if your device has one).</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Open the App</h4>
+                <p>Launch Meshtastic and enable Bluetooth when prompted.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Connect to Your Node</h4>
+                <p>Tap the "+" button and select your device from the list. It may appear as "Meshtastic_xxxx".</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Set Your Name</h4>
+                <p>Go to Settings → User and set a short name (up to 4 characters) and long name for your node.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Configure Region</h4>
+                <p>Go to Settings → LoRa and select your region (e.g., "US" for United States). This sets the correct frequency.</p>
+            </div>
+        </div>
+
+        <h2>Step 4: Set Up Channels</h2>
+        <p>
+            Channels are like chat rooms. All nodes on the same channel can communicate.
+        </p>
+        
+        <h3>Default Channel</h3>
+        <p>
+            Meshtastic comes with a default "LongFast" channel. This is fine for testing but not secure—anyone 
+            with Meshtastic can see messages on the default channel.
+        </p>
+        
+        <h3>Creating a Private Channel</h3>
+        <ol>
+            <li>Go to Settings → Channels</li>
+            <li>Tap "Add Channel"</li>
+            <li>Name your channel (e.g., "Community")</li>
+            <li>Generate a new encryption key</li>
+            <li>Save the channel</li>
+        </ol>
+        
+        <h3>Sharing Channels</h3>
+        <p>
+            To add others to your private channel:
+        </p>
+        <ol>
+            <li>Go to Settings → Channels</li>
+            <li>Select your channel</li>
+            <li>Tap "Share" to generate a QR code</li>
+            <li>Others scan this QR code with their Meshtastic app</li>
+        </ol>
+
+        <div class="info-box">
+            <div class="info-box-title">🔐 Security Note</div>
+            <p>Channel encryption keys are shared among all members. Anyone with the key can read messages. For truly private communication, use Direct Messages which have additional encryption.</p>
+        </div>
+
+        <h2>Step 5: Deploy Router Nodes</h2>
+        <p>
+            For a robust community mesh, deploy dedicated router nodes at strategic locations.
+        </p>
+        
+        <h3>Ideal Router Locations</h3>
+        <ul>
+            <li>High points (hilltops, tall buildings, water towers)</li>
+            <li>Central locations in your coverage area</li>
+            <li>Places with reliable power (solar + battery)</li>
+        </ul>
+        
+        <h3>Router Configuration</h3>
+        <ol>
+            <li>Connect to the node via app</li>
+            <li>Go to Settings → Device</li>
+            <li>Set Role to "Router" or "Router Client"</li>
+            <li>Enable "Always Powered" if on continuous power</li>
+            <li>Consider enabling "Store & Forward" plugin to cache messages</li>
+        </ol>
+
+        <h3>Solar-Powered Router</h3>
+        <p>
+            A simple solar router setup:
+        </p>
+        <ul>
+            <li>5-10W solar panel</li>
+            <li>Small charge controller</li>
+            <li>18650 battery or small LiPo</li>
+            <li>Weatherproof enclosure</li>
+            <li>External antenna mounted high</li>
+        </ul>
+
+        <h2>Step 6: Test Your Network</h2>
+        
+        <h3>Basic Test</h3>
+        <ol>
+            <li>Power on at least 2 nodes</li>
+            <li>Connect each to a different phone</li>
+            <li>Send a message from one to the other</li>
+            <li>Check that it arrives!</li>
+        </ol>
+        
+        <h3>Range Test</h3>
+        <ol>
+            <li>Leave one node stationary</li>
+            <li>Walk/drive away with the other</li>
+            <li>Send periodic messages</li>
+            <li>Note where messages stop getting through</li>
+            <li>The app shows signal strength (SNR) for received messages</li>
+        </ol>
+        
+        <h3>Mesh Test</h3>
+        <ol>
+            <li>Set up 3+ nodes in a line where A can reach B, B can reach C, but A cannot directly reach C</li>
+            <li>Send a message from A to C</li>
+            <li>Verify it arrives via B (check hop count in message details)</li>
+        </ol>
+
+        <h2>Advanced Configuration</h2>
+        
+        <h3>Position Sharing</h3>
+        <p>
+            Nodes with GPS (like T-Beam) can share their location. Configure in Settings → Position:
+        </p>
+        <ul>
+            <li>Enable GPS</li>
+            <li>Set position broadcast interval</li>
+            <li>Choose precision level (can reduce for privacy)</li>
+        </ul>
+        
+        <h3>Telemetry</h3>
+        <p>
+            Nodes can share sensor data (battery level, temperature, etc.). Useful for monitoring remote router nodes.
+        </p>
+        
+        <h3>Store & Forward</h3>
+        <p>
+            Router nodes can cache messages for offline nodes. When a node comes back online, it receives missed messages.
+        </p>
+
+        <h2>Community Deployment Tips</h2>
+        
+        <div class="info-box">
+            <div class="info-box-title">📋 Document Your Network</div>
+            <p>Keep a map of node locations, channel configurations, and responsible parties. This helps with troubleshooting and onboarding new members.</p>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-box-title">🔋 Battery Life</div>
+            <p>Client nodes last 2-5 days on a 3000mAh battery. Router nodes use more power. Plan your power strategy accordingly.</p>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-box-title">📡 Antenna Upgrades</div>
+            <p>The stock antennas work, but a proper tuned antenna can dramatically improve range. Consider a 5dBi or higher gain antenna for router nodes.</p>
+        </div>
+
+        <h2>Troubleshooting</h2>
+        
+        <div class="info-box warning">
+            <div class="info-box-title">Messages Not Sending?</div>
+            <p>Check that all nodes are on the same channel with the same encryption key. Verify the region setting matches. Make sure nodes are within range of each other or a router.</p>
+        </div>
+        
+        <div class="info-box warning">
+            <div class="info-box-title">Poor Range?</div>
+            <p>Try elevating the antenna. Even a few feet higher can help. Check for obstacles (buildings, hills, dense trees). Consider an external antenna.</p>
+        </div>
+        
+        <div class="info-box warning">
+            <div class="info-box-title">Bluetooth Won't Connect?</div>
+            <p>Forget the device in your phone's Bluetooth settings and re-pair. Make sure only one phone is trying to connect to each node.</p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>
+            Meshtastic provides a powerful, accessible way to build community communication infrastructure 
+            that doesn't depend on any external services. Start with a few nodes, test thoroughly, and 
+            expand as needed.
+        </p>
+        <p>
+            The mesh gets stronger with every node added. Encourage community members to carry nodes, 
+            deploy routers at key locations, and you'll have a resilient communication network that 
+            works when nothing else does.
+        </p>
+        <p>
+            This is solarpunk in action—community-built infrastructure, powered by the sun, connecting 
+            people without corporate intermediaries.
+        </p>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#tutorials" class="back-link">← Back to All Tutorials</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>

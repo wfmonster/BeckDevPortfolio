@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a NAS from a Raspberry Pi | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link active">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon">✉</span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
+        <h1>Building a NAS from a Raspberry Pi</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">Raspberry Pi</span>
+            <span class="tutorial-tag">Storage</span>
+            <span class="tutorial-tag difficulty-intermediate">Intermediate</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            Create your own network-attached storage server for home media, backups, and local file sharing.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <h2>Overview</h2>
+        <p>
+            A Network-Attached Storage (NAS) device gives you centralized file storage accessible from any device 
+            on your network. Commercial NAS units can be expensive, but with a Raspberry Pi and some external 
+            storage, you can build your own for a fraction of the cost.
+        </p>
+        <p>
+            This tutorial walks you through setting up a Raspberry Pi as a NAS using OpenMediaVault, 
+            a powerful open-source NAS operating system. By the end, you'll have a fully functional 
+            file server for backups, media streaming, and more.
+        </p>
+
+        <div class="materials-list">
+            <h3>What You'll Need</h3>
+            <ul>
+                <li><strong>Raspberry Pi 4</strong> (4GB or 8GB recommended)</li>
+                <li><strong>MicroSD card</strong> (32GB minimum for OS)</li>
+                <li><strong>External USB hard drive(s)</strong> or SSD for storage</li>
+                <li><strong>Ethernet cable</strong> (recommended over WiFi for reliability)</li>
+                <li><strong>Power supply</strong> (official Pi 4 power supply recommended)</li>
+                <li><strong>Case with cooling</strong> (optional but recommended)</li>
+                <li><strong>Another computer</strong> for initial setup</li>
+            </ul>
+        </div>
+
+        <h2>Step 1: Install Raspberry Pi OS Lite</h2>
+        <p>
+            We'll use Raspberry Pi OS Lite (no desktop) as our base, then install OpenMediaVault on top.
+        </p>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Download Raspberry Pi Imager</h4>
+                <p>Get the official Raspberry Pi Imager from <code>raspberrypi.com/software</code> and install it on your computer.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Flash the OS</h4>
+                <p>Insert your microSD card and open Raspberry Pi Imager. Select <strong>Raspberry Pi OS Lite (64-bit)</strong> as the operating system. Click the gear icon to configure:</p>
+                <ul>
+                    <li>Set hostname (e.g., <code>pi-nas</code>)</li>
+                    <li>Enable SSH</li>
+                    <li>Set username and password</li>
+                    <li>Configure WiFi (optional, Ethernet preferred)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Boot the Pi</h4>
+                <p>Insert the microSD card into your Pi, connect Ethernet and power. Wait 2-3 minutes for first boot.</p>
+            </div>
+        </div>
+
+        <h2>Step 2: Connect and Update</h2>
+        <p>
+            SSH into your Pi from another computer to complete the setup.
+        </p>
+        
+        <pre><code># Find your Pi's IP address (check your router, or use)
+ping pi-nas.local
+
+# Connect via SSH
+ssh your-username@pi-nas.local
+
+# Update the system
+sudo apt update && sudo apt upgrade -y</code></pre>
+
+        <div class="info-box">
+            <div class="info-box-title">💡 Tip</div>
+            <p>If <code>pi-nas.local</code> doesn't work, find the IP address in your router's admin panel or use a network scanner app.</p>
+        </div>
+
+        <h2>Step 3: Install OpenMediaVault</h2>
+        <p>
+            OpenMediaVault (OMV) provides a web-based interface for managing your NAS. Installation is straightforward with their script.
+        </p>
+        
+        <pre><code># Download and run the OMV install script
+wget -O - https://raw.githubusercontent.com/OpenMediaVault-Plugin-Developers/installScript/master/install | sudo bash</code></pre>
+
+        <div class="info-box warning">
+            <div class="info-box-title">⚠️ Note</div>
+            <p>This installation takes 15-30 minutes. Don't interrupt the process. The Pi will reboot automatically when complete.</p>
+        </div>
+
+        <h2>Step 4: Access the Web Interface</h2>
+        <p>
+            After the Pi reboots, access OpenMediaVault through your web browser.
+        </p>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Open the Web UI</h4>
+                <p>Navigate to <code>http://pi-nas.local</code> or <code>http://[your-pi-ip]</code> in a web browser.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Login</h4>
+                <p>Default credentials:</p>
+                <ul>
+                    <li>Username: <code>admin</code></li>
+                    <li>Password: <code>openmediavault</code></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Change the Password</h4>
+                <p>Immediately go to <strong>User Settings → Change Password</strong> and set a secure password.</p>
+            </div>
+        </div>
+
+        <h2>Step 5: Configure Storage</h2>
+        <p>
+            Connect your external drive(s) and set them up in OMV.
+        </p>
+        
+        <h3>Mount the Drive</h3>
+        <ol>
+            <li>Go to <strong>Storage → Disks</strong> to verify your drive is detected</li>
+            <li>Go to <strong>Storage → File Systems</strong></li>
+            <li>Click <strong>Create</strong> (or Mount if already formatted)</li>
+            <li>Select your drive and choose <strong>EXT4</strong> filesystem</li>
+            <li>Click <strong>Save</strong> and then <strong>Apply</strong> the pending changes</li>
+        </ol>
+
+        <h3>Create a Shared Folder</h3>
+        <ol>
+            <li>Go to <strong>Storage → Shared Folders</strong></li>
+            <li>Click <strong>Create</strong></li>
+            <li>Name your folder (e.g., "Media", "Backups")</li>
+            <li>Select the file system you just mounted</li>
+            <li>Set permissions as needed</li>
+            <li>Click <strong>Save</strong> and <strong>Apply</strong></li>
+        </ol>
+
+        <h2>Step 6: Enable SMB/CIFS Sharing</h2>
+        <p>
+            SMB (Samba) allows Windows, Mac, and Linux computers to access your shares.
+        </p>
+        
+        <ol>
+            <li>Go to <strong>Services → SMB/CIFS → Settings</strong></li>
+            <li>Toggle <strong>Enabled</strong> to on</li>
+            <li>Click <strong>Save</strong></li>
+            <li>Go to the <strong>Shares</strong> tab</li>
+            <li>Click <strong>Create</strong></li>
+            <li>Select your shared folder</li>
+            <li>Configure guest access or require authentication</li>
+            <li>Click <strong>Save</strong> and <strong>Apply</strong></li>
+        </ol>
+
+        <h2>Step 7: Create Users</h2>
+        <p>
+            For secure access, create user accounts.
+        </p>
+        
+        <ol>
+            <li>Go to <strong>Users → Users</strong></li>
+            <li>Click <strong>Create</strong></li>
+            <li>Set username, password, and groups</li>
+            <li>Add user to <strong>users</strong> group for share access</li>
+            <li>Click <strong>Save</strong> and <strong>Apply</strong></li>
+        </ol>
+
+        <h2>Step 8: Connect from Your Devices</h2>
+        
+        <h3>Windows</h3>
+        <p>Open File Explorer and type <code>\\pi-nas</code> or <code>\\[ip-address]</code> in the address bar.</p>
+        
+        <h3>macOS</h3>
+        <p>In Finder, press <code>Cmd+K</code> and enter <code>smb://pi-nas</code> or <code>smb://[ip-address]</code>.</p>
+        
+        <h3>Linux</h3>
+        <p>In your file manager, connect to <code>smb://pi-nas</code> or mount via command line:</p>
+        <pre><code>sudo mount -t cifs //pi-nas/ShareName /mnt/nas -o username=yourusername</code></pre>
+
+        <h2>Optional Enhancements</h2>
+        
+        <h3>Enable Docker</h3>
+        <p>
+            OMV supports Docker through the <strong>omv-extras</strong> plugin, allowing you to run additional services like Plex, Nextcloud, or Pi-hole.
+        </p>
+        
+        <h3>Set Up Backups</h3>
+        <p>
+            Use OMV's built-in rsync plugin to create automated backups between drives or to remote locations.
+        </p>
+        
+        <h3>Configure UPS Monitoring</h3>
+        <p>
+            If you have a UPS (uninterruptible power supply), OMV can monitor it and safely shut down during power outages.
+        </p>
+
+        <h2>Troubleshooting</h2>
+        
+        <div class="info-box">
+            <div class="info-box-title">Drive Not Detected?</div>
+            <p>Try a powered USB hub. The Pi may not supply enough power for large drives. Also check <code>lsblk</code> via SSH to see if the drive appears at the system level.</p>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-box-title">Slow Transfer Speeds?</div>
+            <p>Ensure you're using Ethernet, not WiFi. USB 3.0 drives on the blue USB ports will be faster than USB 2.0. Check that your network supports gigabit speeds.</p>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-box-title">Can't Access Web UI?</div>
+            <p>SSH into the Pi and run <code>sudo omv-firstaid</code> to access recovery options, including resetting the web interface.</p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>
+            You now have a fully functional NAS running on a Raspberry Pi! This setup gives you:
+        </p>
+        <ul>
+            <li>Centralized file storage accessible from any device</li>
+            <li>A platform for media streaming (add Plex or Jellyfin)</li>
+            <li>Local backups independent of cloud services</li>
+            <li>Full control over your data</li>
+        </ul>
+        <p>
+            The beauty of a Pi-based NAS is its low power consumption and flexibility. It's perfect for home use 
+            and aligns well with off-grid and self-reliant computing principles.
+        </p>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#tutorials" class="back-link">← Back to All Tutorials</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>

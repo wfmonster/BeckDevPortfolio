@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating an Off-Grid Community Hub | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link active">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon">✉</span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
+        <h1>Creating an Off-Grid Community Hub</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">HTML/CSS</span>
+            <span class="tutorial-tag">Off-Grid</span>
+            <span class="tutorial-tag difficulty-beginner">Beginner</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            Build a local-network community information portal using only HTML and CSS—perfect for solar-powered, offline-first deployments.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <h2>Why Build a Community Hub?</h2>
+        <p>
+            In off-grid communities, access to shared information is crucial. A local community hub provides 
+            a central place for emergency contacts, schedules, resources, and guides—all accessible without 
+            internet connectivity.
+        </p>
+        <p>
+            By using pure HTML and CSS (no JavaScript frameworks, no databases), we create a solution that:
+        </p>
+        <ul>
+            <li><strong>Uses minimal power</strong> — No server-side processing means lower energy consumption</li>
+            <li><strong>Works on any device</strong> — Any browser can render HTML/CSS</li>
+            <li><strong>Is easy to maintain</strong> — Anyone can edit HTML files</li>
+            <li><strong>Loads instantly</strong> — Static files serve immediately</li>
+            <li><strong>Never breaks</strong> — No dependencies to update or security patches to apply</li>
+        </ul>
+
+        <div class="materials-list">
+            <h3>What You'll Need</h3>
+            <ul>
+                <li><strong>Text editor</strong> (VS Code, Notepad++, or even Notepad)</li>
+                <li><strong>Web browser</strong> for testing</li>
+                <li><strong>Basic HTML/CSS knowledge</strong> (we'll cover the essentials)</li>
+                <li><strong>A server</strong> (Raspberry Pi, old laptop, or any computer) for hosting</li>
+            </ul>
+        </div>
+
+        <h2>Project Structure</h2>
+        <p>
+            We'll create a multi-page site with shared styling. Here's the structure:
+        </p>
+        <pre><code>community-hub/
+├── index.html          # Homepage
+├── resources.html      # Community resources
+├── events.html         # Schedule & events
+├── guides.html         # How-to guides
+├── about.html          # Community info
+└── styles.css          # Shared styling</code></pre>
+
+        <h2>Step 1: Create the HTML Structure</h2>
+        <p>
+            Start with a basic HTML5 template. Every page will share this structure:
+        </p>
+        
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Community Hub&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;!-- Logo and site title --&gt;
+    &lt;/header&gt;
+    
+    &lt;nav&gt;
+        &lt;!-- Navigation links --&gt;
+    &lt;/nav&gt;
+    
+    &lt;main&gt;
+        &lt;!-- Page content --&gt;
+    &lt;/main&gt;
+    
+    &lt;footer&gt;
+        &lt;!-- Footer info --&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h2>Step 2: Build the Navigation</h2>
+        <p>
+            Create a consistent navigation that appears on every page:
+        </p>
+        
+        <pre><code>&lt;nav class="main-nav"&gt;
+    &lt;a href="index.html" class="nav-link active"&gt;
+        &lt;span class="nav-icon"&gt;⌂&lt;/span&gt;
+        &lt;span class="nav-text"&gt;Home&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a href="resources.html" class="nav-link"&gt;
+        &lt;span class="nav-icon"&gt;◈&lt;/span&gt;
+        &lt;span class="nav-text"&gt;Resources&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a href="events.html" class="nav-link"&gt;
+        &lt;span class="nav-icon"&gt;◐&lt;/span&gt;
+        &lt;span class="nav-text"&gt;Events&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a href="guides.html" class="nav-link"&gt;
+        &lt;span class="nav-icon"&gt;⚙&lt;/span&gt;
+        &lt;span class="nav-text"&gt;Guides&lt;/span&gt;
+    &lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+
+        <div class="info-box">
+            <div class="info-box-title">💡 Using Unicode Icons</div>
+            <p>We use Unicode symbols (⌂, ◈, ◐, ⚙) instead of icon libraries. This means no external dependencies and the icons work offline!</p>
+        </div>
+
+        <h2>Step 3: Create Content Cards</h2>
+        <p>
+            Cards are a great way to organize information. Here's a reusable card pattern:
+        </p>
+        
+        <pre><code>&lt;section class="card"&gt;
+    &lt;div class="card-header"&gt;
+        &lt;span class="card-icon"&gt;✦&lt;/span&gt;
+        &lt;h2&gt;Emergency Contacts&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class="card-content"&gt;
+        &lt;div class="contact-item"&gt;
+            &lt;span class="contact-label"&gt;Fire / Medical&lt;/span&gt;
+            &lt;span class="contact-value"&gt;911&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;!-- More contacts... --&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+        <h2>Step 4: Style with CSS Variables</h2>
+        <p>
+            CSS variables make it easy to maintain a consistent theme and change colors site-wide:
+        </p>
+        
+        <pre><code>:root {
+    /* Colors */
+    --primary-color: #F4A020;
+    --background-dark: #0D1117;
+    --text-primary: #FDF6E3;
+    --text-secondary: #A8A29E;
+    
+    /* Spacing */
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    
+    /* Typography */
+    --font-display: 'Courier New', monospace;
+    --font-body: Georgia, serif;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--background-dark);
+    color: var(--text-primary);
+}</code></pre>
+
+        <h2>Step 5: Make It Responsive</h2>
+        <p>
+            Use CSS Grid and Flexbox for layouts that adapt to any screen size:
+        </p>
+        
+        <pre><code>/* Mobile-first base styles */
+.content {
+    padding: var(--space-md);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Grid that adapts to available space */
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-md);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .nav-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.65rem;
+    }
+}</code></pre>
+
+        <h2>Step 6: Add Visual Interest</h2>
+        <p>
+            A few CSS techniques can make your hub visually engaging without JavaScript:
+        </p>
+        
+        <h3>Animated Starfield Background</h3>
+        <pre><code>.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(1px 1px at 20px 30px, white, transparent),
+        radial-gradient(1px 1px at 90px 40px, white, transparent);
+    background-size: 400px 250px;
+    animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.4; }
+    to { opacity: 0.7; }
+}</code></pre>
+
+        <h3>Glowing Effects</h3>
+        <pre><code>.card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(244, 160, 32, 0.3);
+}</code></pre>
+
+        <h2>Step 7: Host on Your Local Network</h2>
+        <p>
+            To make your hub accessible to others on your network:
+        </p>
+        
+        <h3>Option A: Python Simple Server</h3>
+        <pre><code># Navigate to your hub folder
+cd community-hub
+
+# Start a simple HTTP server
+python -m http.server 8080
+
+# Access at http://your-ip:8080</code></pre>
+
+        <h3>Option B: Raspberry Pi with Nginx</h3>
+        <pre><code># Install nginx
+sudo apt install nginx
+
+# Copy files to web root
+sudo cp -r community-hub/* /var/www/html/
+
+# Access at http://raspberry-pi-ip</code></pre>
+
+        <h3>Option C: Set Up mDNS</h3>
+        <p>
+            Configure your server to respond to a friendly name like <code>hub.local</code> instead of an IP address.
+        </p>
+
+        <h2>Essential Pages to Include</h2>
+        
+        <h3>Homepage (index.html)</h3>
+        <ul>
+            <li>Emergency contacts (most important!)</li>
+            <li>Today's schedule</li>
+            <li>Important locations</li>
+            <li>Quick links to other sections</li>
+        </ul>
+        
+        <h3>Resources Page</h3>
+        <ul>
+            <li>Food resources (gardens, kitchens, storage)</li>
+            <li>Water systems</li>
+            <li>Tool library</li>
+            <li>Energy systems</li>
+            <li>Communication equipment</li>
+            <li>Medical resources</li>
+        </ul>
+        
+        <h3>Events/Schedule Page</h3>
+        <ul>
+            <li>Weekly recurring events</li>
+            <li>Upcoming special events</li>
+            <li>How to add events</li>
+        </ul>
+        
+        <h3>Guides Page</h3>
+        <ul>
+            <li>Emergency procedures</li>
+            <li>How to use community systems</li>
+            <li>Practical skills (first aid, water purification, etc.)</li>
+        </ul>
+
+        <h2>Tips for Off-Grid Deployment</h2>
+        
+        <div class="info-box">
+            <div class="info-box-title">⚡ Power Efficiency</div>
+            <p>A Raspberry Pi Zero W uses about 0.5W idle—perfect for solar power. Even a small 10W panel can keep it running 24/7.</p>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-box-title">📱 Mobile Access</div>
+            <p>Test your hub on phones and tablets. Most community members will access it from mobile devices.</p>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-box-title">🖨️ Print Styles</div>
+            <p>Add print-friendly CSS so guides can be printed for field reference when devices aren't available.</p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>
+            A community hub doesn't need to be complex. With just HTML and CSS, you can create a reliable, 
+            low-power information system that serves your community for years. The simplicity is the feature—
+            no updates to break things, no security vulnerabilities, no dependencies.
+        </p>
+        <p>
+            Start simple, add pages as needed, and let your community contribute content. The best hub is 
+            one that actually gets used!
+        </p>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#tutorials" class="back-link">← Back to All Tutorials</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>
