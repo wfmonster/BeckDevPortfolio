@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
     <!-- Starfield background -->
-    <div class="stars"></div>
-    <div class="stars stars-2"></div>
+    <div class="stars" id="stars-1"></div>
+    <div class="stars stars-2" id="stars-2"></div>
     
     <!-- Hero Section -->
     <header class="hero">
         <h1>Dr. Phyllis J. Beck</h1>
-        <p class="title">Full-Stack AI Engineer • Researcher • Educator • Creative Technologist</p>
+        <p class="title"><span class="typing-text" id="typing-text">Full-Stack AI Engineer</span><span class="cursor">|</span></p>
         <div class="hero-links">
             <a href="https://github.com/wfmonster/" class="skill-tag hero-link" target="_blank">GitHub →</a>
             <a href="https://linkedin.com/in/" class="skill-tag hero-link" target="_blank">LinkedIn →</a>
@@ -500,5 +503,6 @@
     </footer>
 
     <script src="radio-visualizer.js"></script>
+    <script src="effects.js"></script>
 </body>
 </html>
