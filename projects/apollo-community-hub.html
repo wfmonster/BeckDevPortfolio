@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apollo Community Hub | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link active">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon">✉</span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="article-header">
+        <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        <h1>Apollo Community Hub</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">HTML</span>
+            <span class="tutorial-tag">CSS</span>
+            <span class="tutorial-tag">Offline-First</span>
+            <span class="tutorial-tag">Solarpunk</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            A retro-futuristic community information portal designed for off-grid living.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <h2>Overview</h2>
+        <p>
+            Apollo Community Hub is an offline-first community information portal built with pure HTML and CSS. 
+            Named after the Apollo missions that united humanity in wonder, this hub serves as a digital beacon 
+            for sustainable, connected living — even when disconnected from the grid.
+        </p>
+        <p>
+            The project demonstrates that powerful, beautiful web experiences don't require JavaScript frameworks 
+            or constant internet connectivity. It's designed to run on solar-powered Raspberry Pi servers, 
+            providing essential community resources without external dependencies.
+        </p>
+
+        <h2>Features</h2>
+        <ul>
+            <li><strong>🏠 Homepage</strong> — Emergency contacts, daily schedule, important locations</li>
+            <li><strong>📦 Resources</strong> — Food, water, tools, energy, communications, medical, education</li>
+            <li><strong>📅 Events</strong> — Weekly schedule, special events, regular programming</li>
+            <li><strong>📖 Guides</strong> — Solar power, radio comms, water purification, first aid</li>
+            <li><strong>ℹ️ About</strong> — Mission, values, coordinators, community agreements</li>
+        </ul>
+
+        <h2>Design Philosophy</h2>
+        
+        <div class="info-box">
+            <div class="info-box-title">Core Principles</div>
+            <ul>
+                <li><strong>Offline-First:</strong> Works entirely without internet connection</li>
+                <li><strong>Low Power:</strong> Pure HTML/CSS, no JavaScript overhead</li>
+                <li><strong>Mobile-Ready:</strong> Responsive design for all screen sizes</li>
+                <li><strong>Print-Friendly:</strong> Guides can be printed for field reference</li>
+                <li><strong>Easy to Edit:</strong> Simple HTML that anyone can modify</li>
+            </ul>
+        </div>
+
+        <h2>Tech Stack</h2>
+        <div class="materials-list">
+            <h3>Technologies</h3>
+            <ul>
+                <li><strong>Pure HTML5</strong> — Semantic markup</li>
+                <li><strong>CSS3</strong> — Custom properties, flexbox, grid</li>
+                <li><strong>No JavaScript</strong> — Maximum compatibility and efficiency</li>
+                <li><strong>No Build Tools</strong> — Edit and deploy directly</li>
+            </ul>
+        </div>
+
+        <h2>Aesthetic</h2>
+        <p>
+            The visual design follows a <strong>NASA-Punk / Retro-Futuristic</strong> aesthetic inspired by:
+        </p>
+        <ul>
+            <li>1960s-70s NASA mission control</li>
+            <li>Vintage space program optimism</li>
+            <li>Solarpunk's hopeful, sustainable future vision</li>
+            <li>Analog instrument panels and CRT displays</li>
+        </ul>
+
+        <h2>Power Considerations</h2>
+        <p>
+            This hub is designed for solar-powered, battery-backed systems:
+        </p>
+        <ul>
+            <li><strong>No JavaScript</strong> = Lower CPU usage = Less power draw</li>
+            <li><strong>Small file sizes</strong> = Fast loading = Less network activity</li>
+            <li><strong>Static files</strong> = No database = No background processes</li>
+        </ul>
+        <p>
+            Estimated power savings vs. dynamic CMS: <strong>50-80% less server power consumption</strong>.
+        </p>
+
+        <h2>Deployment</h2>
+        <p>
+            The hub can be deployed on any web server, but it's optimized for:
+        </p>
+        <ul>
+            <li>Raspberry Pi with nginx or lighttpd</li>
+            <li>Local network access via mDNS (apollo.local)</li>
+            <li>Solar-powered setups with limited resources</li>
+        </ul>
+
+        <h2>Links</h2>
+        <p>
+            <a href="https://github.com/wfmonster/ApolloCommunityHub" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                ◇ View on GitHub →
+            </a>
+        </p>
+
+        <h2>Related Tutorials</h2>
+        <ul>
+            <li><a href="../tutorials/community-hub.html">Creating an Off-Grid Community Hub</a> — Step-by-step guide</li>
+            <li><a href="../tutorials/raspberry-pi-nas.html">Building a NAS from a Raspberry Pi</a> — Server setup basics</li>
+        </ul>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#projects" class="back-link">← Back to All Projects</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>

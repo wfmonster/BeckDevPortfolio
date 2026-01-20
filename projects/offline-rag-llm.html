@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline RAG LLM System | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon">⌂</span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link active">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon">✉</span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="article-header">
+        <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        <h1>Offline RAG LLM System</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">Python</span>
+            <span class="tutorial-tag">FastAPI</span>
+            <span class="tutorial-tag">Next.js</span>
+            <span class="tutorial-tag">LangChain</span>
+            <span class="tutorial-tag">Ollama</span>
+            <span class="tutorial-tag">ChromaDB</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            A fully offline AI chat application with document Q&A — no cloud required.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <h2>Overview</h2>
+        <p>
+            This project is a complete Retrieval-Augmented Generation (RAG) system that runs entirely on local hardware. 
+            It enables private, secure AI conversations with the ability to query your own documents — all without 
+            sending data to external servers.
+        </p>
+        <p>
+            Built with privacy-first principles in mind, this system is ideal for researchers, professionals handling 
+            sensitive documents, or anyone who wants the power of modern AI without cloud dependencies.
+        </p>
+
+        <h2>Key Features</h2>
+        
+        <h3>Chat Interface & Management</h3>
+        <ul>
+            <li>Real-time chat interface with message threading</li>
+            <li>Chat history sidebar with timestamps</li>
+            <li>Full CRUD operations: create, rename, delete conversations</li>
+            <li>Auto-generated chat titles based on first message</li>
+            <li>Copy to clipboard functionality for all messages</li>
+        </ul>
+
+        <h3>RAG Pipeline (Document Q&A)</h3>
+        <ul>
+            <li>Document upload with async processing</li>
+            <li>Markdown and text file support</li>
+            <li>Intelligent text chunking (1000 chars, 200 overlap)</li>
+            <li>Vector storage with ChromaDB</li>
+            <li>Semantic search for relevant context retrieval</li>
+            <li>Source attribution in responses</li>
+        </ul>
+
+        <h3>Document Library</h3>
+        <ul>
+            <li>Drag-and-drop upload interface</li>
+            <li>Folder organization with custom colors</li>
+            <li>Tag-based categorization and filtering</li>
+            <li>Live markdown editor with preview</li>
+            <li>Chunk preview to see how documents are split</li>
+        </ul>
+
+        <h3>Prompt Template Library</h3>
+        <ul>
+            <li>Save, edit, and organize prompt templates</li>
+            <li>Category-based organization</li>
+            <li>Favorites system for quick access</li>
+            <li>One-click "Start Chat" with template</li>
+        </ul>
+
+        <h3>Additional Features</h3>
+        <ul>
+            <li>Dark/light theme with system detection</li>
+            <li>Per-chat document context selection</li>
+            <li>Responsive design for desktop and mobile</li>
+            <li>Full keyboard navigation support</li>
+        </ul>
+
+        <h2>Tech Stack</h2>
+        
+        <div class="materials-list">
+            <h3>Frontend</h3>
+            <ul>
+                <li><strong>Next.js 15.5</strong> with App Router and Turbopack</li>
+                <li><strong>TypeScript</strong> for type safety</li>
+                <li><strong>Tailwind CSS 4</strong> with CSS variables</li>
+                <li><strong>React Query</strong> for server state management</li>
+            </ul>
+        </div>
+
+        <div class="materials-list">
+            <h3>Backend</h3>
+            <ul>
+                <li><strong>FastAPI</strong> with async support</li>
+                <li><strong>Python 3.11+</strong></li>
+                <li><strong>Pydantic v2</strong> for data validation</li>
+                <li><strong>Motor</strong> async MongoDB driver</li>
+            </ul>
+        </div>
+
+        <div class="materials-list">
+            <h3>AI & Data</h3>
+            <ul>
+                <li><strong>Ollama</strong> for local LLM inference</li>
+                <li><strong>LangChain</strong> for RAG pipeline</li>
+                <li><strong>ChromaDB</strong> for vector storage</li>
+                <li><strong>MongoDB 7</strong> for document/chat storage</li>
+            </ul>
+        </div>
+
+        <div class="materials-list">
+            <h3>DevOps</h3>
+            <ul>
+                <li><strong>Docker Compose</strong> for containerization</li>
+                <li><strong>uv</strong> for Python package management</li>
+                <li><strong>Makefile</strong> for development orchestration</li>
+            </ul>
+        </div>
+
+        <h2>Architecture</h2>
+        <p>
+            The system follows a microservices-inspired architecture with clear separation between frontend, 
+            backend API, database, and AI inference layers:
+        </p>
+        
+        <div class="info-box">
+            <div class="info-box-title">System Flow</div>
+            <ol>
+                <li>User uploads documents → Backend processes and chunks text</li>
+                <li>Chunks are embedded and stored in ChromaDB vector database</li>
+                <li>User asks a question → Semantic search retrieves relevant chunks</li>
+                <li>Context + question sent to Ollama for local LLM inference</li>
+                <li>Response streamed back with source attribution</li>
+            </ol>
+        </div>
+
+        <h2>Privacy & Security</h2>
+        <p>
+            This project was designed with data sovereignty in mind:
+        </p>
+        <ul>
+            <li><strong>100% Local:</strong> All processing happens on your machine</li>
+            <li><strong>No API Keys:</strong> No OpenAI, no cloud LLM providers</li>
+            <li><strong>Your Data Stays Yours:</strong> Documents never leave your network</li>
+            <li><strong>Air-Gapped Ready:</strong> Can run completely offline</li>
+        </ul>
+
+        <h2>Use Cases</h2>
+        <ul>
+            <li>Research document analysis and Q&A</li>
+            <li>Private knowledge base for sensitive information</li>
+            <li>Offline AI assistant for field work</li>
+            <li>Educational tool for learning about RAG systems</li>
+            <li>Foundation for custom AI applications</li>
+        </ul>
+
+        <h2>Status</h2>
+        <p>
+            This project is under active development. Current focus areas include PDF/DOCX support, 
+            streaming responses, and user authentication.
+        </p>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Private Repository</div>
+            <p>This project is currently in a private repository. Contact me if you're interested in collaboration or have questions about the implementation.</p>
+        </div>
+
+        <h2>Related</h2>
+        <ul>
+            <li><a href="prompt-template-manager.html">Prompt Template Manager</a> — Standalone prompt organization tool</li>
+        </ul>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#projects" class="back-link">← Back to All Projects</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>

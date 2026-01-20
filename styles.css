@@ -629,6 +629,87 @@ body {
     color: var(--apollo-cream);
 }
 
+/* ---------- Publications Section ---------- */
+.publications-intro {
+    margin-bottom: var(--space-lg);
+}
+
+.publications-intro p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.publications-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.publication-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: var(--space-lg);
+    transition: all 0.3s ease;
+}
+
+.publication-item:hover {
+    border-color: var(--apollo-gold);
+    box-shadow: var(--glow);
+}
+
+.publication-item.award {
+    border-color: rgba(244, 160, 32, 0.5);
+    background: linear-gradient(135deg, var(--card-bg), rgba(244, 160, 32, 0.05));
+}
+
+.publication-type {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--retro-teal);
+    margin-bottom: var(--space-sm);
+}
+
+.publication-item.award .publication-type {
+    color: var(--apollo-gold);
+}
+
+.publication-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    line-height: 1.4;
+}
+
+.publication-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.publication-note {
+    font-size: 0.8rem;
+    color: var(--apollo-gold);
+    font-style: italic;
+}
+
+.publication-link {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--retro-teal);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.publication-link:hover {
+    color: var(--apollo-gold);
+}
+
 /* ---------- Contact Card ---------- */
 .contact-card {
     background: var(--card-bg);

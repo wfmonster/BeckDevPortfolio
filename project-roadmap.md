@@ -65,18 +65,17 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 - [ ] Add a blog/articles section for shorter posts
 - [ ] Create dedicated workshop detail pages
 - [ ] Add workshop booking/scheduling system
-- [ ] Create "About Me" expanded page with background/journey
-- [ ] Add Research & Publications section
-- [ ] Create project detail pages (projects/ folder):
-  - [ ] projects/offline-rag-llm.html - Full description, GitHub link, tech stack, related tutorials
-  - [ ] projects/apollo-community-hub.html - Description, repo link, related tutorials
-  - [ ] projects/pi-nas.html - Description, link to NAS tutorial
-  - [ ] projects/community-mesh.html - Description, link to Meshtastic tutorial
-  - [ ] projects/ece-capstone.html - Description, highlights, student outcomes
-  - Each page should include: project overview, tech stack tags, GitHub repo link, screenshots (if available), related tutorials section
+- [x] Create "About Me" expanded page with background/journey (about.html)
+- [x] Add Research & Publications section (on index.html)
+- [x] Create project detail pages (projects/ folder):
+  - [x] projects/offline-rag-llm.html - Full description, tech stack, features
+  - [x] projects/prompt-template-manager.html - Description, GitHub link
+  - [x] projects/apollo-community-hub.html - Description, repo link, related tutorials
+  - [ ] projects/ece-capstone.html - Description, highlights, student outcomes (future)
 
 ### Design
 - [ ] Add tutorial thumbnail images
+- [ ] Add screenshots/images to project detail pages
 - [ ] Create custom icons to replace emoji
 - [ ] Add dark/light theme toggle (CSS only)
 - [ ] Improve print styles for tutorials
@@ -92,7 +91,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 - [ ] Add links to live demos where applicable
 - [x] Connect GitHub profile (https://github.com/wfmonster/)
 - [x] Add Google Scholar link (https://scholar.google.com/citations?user=NC5qb5oAAAAJ&hl=en)
-- [ ] Add ORCID link
+- [x] Add ORCID link (https://orcid.org/0009-0000-8699-5771)
 - [ ] Add LinkedIn link (URL needed)
 - [x] Add contact email (beck@beckbishop.com)
 
@@ -121,3 +120,27 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - Available for booking card with email CTA
 - Added workshops navigation link
 - Custom workshop card styling with "past" and "available" variants
+
+### v1.3.0 (January 20, 2026)
+- Added "Vibecoding with Claude Code" available workshop
+- Added Prompt Template Manager to featured projects (https://github.com/wfmonster/prompt-template-manager)
+- Linked Apollo Community Hub project to GitHub repo
+- Linked Pi-NAS and Community Mesh projects to their tutorials
+- Added tutorials/github-netlify-guide.html - Git & deployment guide
+- Expanded skills section with JS/TS, C#, Unity, SQL, Kubernetes, Arduino, etc.
+- Added ORCID link (https://orcid.org/0009-0000-8699-5771)
+- Fixed link colors for readability (teal default, gold hover)
+- Added global link styling to styles.css
+
+### v1.4.0 (January 20, 2026)
+- Created project detail pages (projects/ folder):
+  - projects/offline-rag-llm.html - Comprehensive RAG system documentation
+  - projects/prompt-template-manager.html - Project overview with GitHub link
+  - projects/apollo-community-hub.html - Full description with related tutorials
+- Created about.html - "About Me" page with art→AI journey narrative
+- Added Research & Publications section to index.html
+  - Dissertation and 4 key conference papers
+  - Best Presentation Award highlight
+  - Link to Google Scholar
+- Updated navigation with Research and About links
+- Added publications CSS styling

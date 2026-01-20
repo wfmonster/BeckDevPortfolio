@@ -45,8 +45,16 @@
             <span class="nav-icon">✦</span>
             <span class="nav-text">Skills</span>
         </a>
-        <a href="#contact" class="nav-link">
+        <a href="#publications" class="nav-link">
+            <span class="nav-icon">📄</span>
+            <span class="nav-text">Research</span>
+        </a>
+        <a href="about.html" class="nav-link">
             <span class="nav-icon">☉</span>
+            <span class="nav-text">About</span>
+        </a>
+        <a href="#contact" class="nav-link">
+            <span class="nav-icon">✉</span>
             <span class="nav-text">Contact</span>
         </a>
     </nav>
@@ -162,33 +170,34 @@
             </div>
             
             <div class="projects-grid">
-                <div class="project-card">
+                <a href="projects/offline-rag-llm.html" class="project-card">
                     <div class="project-icon">🤖</div>
                     <h3 class="project-title">Offline RAG LLM System</h3>
                     <p class="project-desc">
                         Fully offline AI chat application with document Q&A. 
                         FastAPI, Next.js, Ollama, ChromaDB, and MongoDB — no cloud required.
                     </p>
-                </div>
+                    <span class="project-link">View Project →</span>
+                </a>
 
-                <a href="https://github.com/wfmonster/prompt-template-manager" class="project-card" target="_blank">
+                <a href="projects/prompt-template-manager.html" class="project-card">
                     <div class="project-icon">📝</div>
                     <h3 class="project-title">Prompt Template Manager</h3>
                     <p class="project-desc">
                         Organize and manage your AI prompts. Built with React, TypeScript, 
                         Vite, and Tailwind CSS.
                     </p>
-                    <span class="project-link">View on GitHub →</span>
+                    <span class="project-link">View Project →</span>
                 </a>
 
-                <a href="https://github.com/wfmonster/ApolloCommunityHub" class="project-card" target="_blank">
+                <a href="projects/apollo-community-hub.html" class="project-card">
                     <div class="project-icon">🏛️</div>
                     <h3 class="project-title">Apollo Community Hub</h3>
                     <p class="project-desc">
                         A retro-futuristic community information portal for off-grid living. 
                         Pure HTML/CSS, solar-powered ready.
                     </p>
-                    <span class="project-link">View on GitHub →</span>
+                    <span class="project-link">View Project →</span>
                 </a>
                 
                 <a href="tutorials/raspberry-pi-nas.html" class="project-card">
@@ -325,6 +334,56 @@
                 <span class="skill-tag">Off-Grid Tech</span>
                 <span class="skill-tag">Self-Hosting</span>
                 <span class="skill-tag">Technical Writing</span>
+            </div>
+        </section>
+
+        <!-- Research & Publications Section -->
+        <section id="publications" style="margin-top: var(--space-2xl);">
+            <div class="section-header">
+                <span class="section-icon">📄</span>
+                <h2>Research & Publications</h2>
+            </div>
+            
+            <div class="publications-intro">
+                <p>
+                    My research focuses on programming education, metacognition, and AI-augmented learning systems. 
+                    <a href="https://scholar.google.com/citations?user=NC5qb5oAAAAJ&hl=en" target="_blank">View full publication list on Google Scholar →</a>
+                </p>
+            </div>
+
+            <div class="publications-list">
+                <div class="publication-item">
+                    <div class="publication-type">Dissertation</div>
+                    <h3 class="publication-title">IDE-based Learning Analytics for Assessing Introductory Programming Skill</h3>
+                    <p class="publication-meta">Beck, P. J. (2023). Mississippi State University.</p>
+                    <a href="https://scholarsjunction.msstate.edu/td/5909" class="publication-link" target="_blank">View Publication →</a>
+                </div>
+
+                <div class="publication-item">
+                    <div class="publication-type">Conference Paper</div>
+                    <h3 class="publication-title">Using a Timeline of Programming Events as a Method for Understanding the Introductory Students' Programming Process</h3>
+                    <p class="publication-meta">Beck, P. J., & Mohammadi-Aragh, M. J. (2023). ASEE Annual Conference, Baltimore, MD.</p>
+                    <a href="https://peer.asee.org/42758" class="publication-link" target="_blank">View Publication →</a>
+                </div>
+
+                <div class="publication-item">
+                    <div class="publication-type">Conference Paper</div>
+                    <h3 class="publication-title">Archimedes: Developing a Model of Cognition and Intelligent Learning System to Support Metacognition in Novice Programmers</h3>
+                    <p class="publication-meta">Beck, P. J. & Mohammadi-Aragh, M.J. (2020). IEEE Frontiers in Education (FIE) Conference.</p>
+                </div>
+
+                <div class="publication-item award">
+                    <div class="publication-type">🏆 Best Presentation Award</div>
+                    <h3 class="publication-title">An Initial Exploration of Machine Learning Techniques to Classify Source Code Comments in Real-time</h3>
+                    <p class="publication-meta">Beck, P.J., Mohammadi-Aragh, M.J., & Archibald, C. (2019). ASEE Annual Conference, Tampa, FL.</p>
+                    <p class="publication-note">Selected for "The Best of Computers in Education" session</p>
+                </div>
+
+                <div class="publication-item">
+                    <div class="publication-type">Conference Paper</div>
+                    <h3 class="publication-title">Real-time Metacognitive Feedback for Introductory Programming Using Machine Learning</h3>
+                    <p class="publication-meta">Beck, P.J., Mohammadi-Aragh, M.J., Archibald, C., Jones, B.A., and Barton, A. (2018). IEEE Frontiers in Education (FIE).</p>
+                </div>
             </div>
         </section>
 
