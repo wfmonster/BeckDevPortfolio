@@ -144,3 +144,23 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - Link to Google Scholar
 - Updated navigation with Research and About links
 - Added publications CSS styling
+
+### v1.5.0 (January 20, 2026)
+- **Radio Visualizer Feature** - Interactive analog radio tuner aesthetic element
+  - Animated frequency bars (85 bars) with teal→gold→orange color gradient
+  - Mouse-reactive: bars respond to cursor proximity with height/opacity changes
+  - Ghost/echo layer for phosphor persistence effect (blurred offset copy)
+  - Static/noise overlay with flickering animation
+  - CRT-style scan lines overlay
+  - Sweeping tuning line that moves across the visualizer
+  - Random interference burst spikes
+  - Rotating tuning knob decoration
+  - Dynamic frequency display (88.1-108.9 MHz) that changes on hover
+- **Code Organization**
+  - Extracted JavaScript to separate file: radio-visualizer.js
+  - Clean IIFE pattern with configuration object
+  - Well-documented functions and event handlers
+- **Styling Updates**
+  - Hero section padding adjustments
+  - Visualizer positioned between hero and navigation
+  - Bottom-aligned tuning elements
