@@ -88,7 +88,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 - [ ] Consider adding search functionality (lunr.js or similar)
 
 ### Integration
-- [ ] Link to Apollo Community Hub repo
+- [x] Link to Apollo Community Hub repo (https://github.com/wfmonster/ApolloCommunityHub)
 - [ ] Add links to live demos where applicable
 - [x] Connect GitHub profile (https://github.com/wfmonster/)
 - [x] Add Google Scholar link (https://scholar.google.com/citations?user=NC5qb5oAAAAJ&hl=en)

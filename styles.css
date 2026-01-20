@@ -56,6 +56,15 @@ html {
     scroll-behavior: smooth;
 }
 
+a {
+    color: var(--retro-teal);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--apollo-gold);
+}
+
 body {
     font-family: var(--font-body);
     font-size: 18px;
@@ -604,6 +613,20 @@ body {
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.6;
+}
+
+.project-link {
+    display: block;
+    margin-top: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--retro-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.project-card:hover .project-link {
+    color: var(--apollo-cream);
 }
 
 /* ---------- Contact Card ---------- */

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub & Netlify Guide | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Article Header -->
+    <header class="article-header">
+        <a href="../index.html" class="back-link">← Back to Home</a>
+        <h1>GitHub & Netlify Guide</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">Git</span>
+            <span class="tutorial-tag">Deployment</span>
+            <span class="tutorial-tag difficulty-beginner">Beginner</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            Version control and free web hosting for static sites
+        </p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html#tutorials" class="nav-link">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#workshops" class="nav-link">
+            <span class="nav-icon">🎤</span>
+            <span class="nav-text">Workshops</span>
+        </a>
+        <a href="../index.html#skills" class="nav-link">
+            <span class="nav-icon">✦</span>
+            <span class="nav-text">Skills</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon">☉</span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <main class="article-content">
+        <!-- Overview -->
+        <h2>Overview</h2>
+        <p>
+            This guide walks you through setting up GitHub for version control and Netlify for free web hosting. 
+            By the end, you'll have your own website live on the internet with automatic deployments.
+        </p>
+        
+        <div class="info-box">
+            <div class="info-box-title">✦ What You'll Learn</div>
+            <ul>
+                <li>Setting up a GitHub account and repository</li>
+                <li>Basic Git commands for version control</li>
+                <li>Deploying to Netlify with automatic updates</li>
+                <li>Daily workflow for managing your site</li>
+            </ul>
+        </div>
+
+        <!-- Part 1: GitHub Setup -->
+        <h2>Part 1: GitHub Setup</h2>
+        
+        <h3>Create a GitHub Account</h3>
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Sign Up</h4>
+                <p>Go to <a href="https://github.com">github.com</a> and click "Sign up". Follow the prompts to create your account and verify your email address.</p>
+            </div>
+        </div>
+
+        <h3>Install Git</h3>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>macOS (with Homebrew)</h4>
+                <pre><code>brew install git</code></pre>
+                <p>Or download from <a href="https://git-scm.com/downloads">git-scm.com/downloads</a></p>
+            </div>
+        </div>
+
+        <h3>Configure Git</h3>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Set Your Identity</h4>
+                <p>Tell Git who you are (use the same email as your GitHub account):</p>
+                <pre><code>git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"</code></pre>
+            </div>
+        </div>
+
+        <h3>Create a Repository</h3>
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>On GitHub</h4>
+                <p>Click the "+" icon in the top right → "New repository". Name your repo (e.g., <code>my-website</code>), choose Public or Private, and click "Create repository". Don't initialize with a README if you're pushing existing code.</p>
+            </div>
+        </div>
+
+        <h3>Push Your Project</h3>
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Connect Local to GitHub</h4>
+                <p>In your terminal, navigate to your project folder and run:</p>
+                <pre><code># Navigate to your project
+cd /path/to/your/project
+
+# Initialize git (if not already done)
+git init
+
+# Add all files
+git add .
+
+# Commit
+git commit -m "Initial commit"
+
+# Connect to GitHub (use YOUR repo URL)
+git remote add origin https://github.com/USERNAME/REPO.git
+
+# Push to GitHub
+git branch -M main
+git push -u origin main</code></pre>
+            </div>
+        </div>
+
+        <!-- Part 2: Netlify -->
+        <h2>Part 2: Netlify Deployment</h2>
+        
+        <h3>Create a Netlify Account</h3>
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Sign Up with GitHub</h4>
+                <p>Go to <a href="https://netlify.com">netlify.com</a>, click "Sign up", then "Sign up with GitHub". Authorize Netlify to access your GitHub account.</p>
+            </div>
+        </div>
+
+        <h3>Deploy Your Site</h3>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Import from GitHub</h4>
+                <p>From the Netlify dashboard, click "Add new site" → "Import an existing project" → "Deploy with GitHub". Select your repository.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Configure Build Settings</h4>
+                <p>For static HTML sites:</p>
+                <ul>
+                    <li><strong>Build command:</strong> Leave blank</li>
+                    <li><strong>Publish directory:</strong> Leave blank or enter <code>.</code></li>
+                </ul>
+                <p>Click "Deploy site"!</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Your Site is Live!</h4>
+                <p>Netlify assigns a random URL like <code>random-name-123.netlify.app</code>. Every push to GitHub will automatically redeploy your site in about 30 seconds.</p>
+            </div>
+        </div>
+
+        <h3>Customize Your URL</h3>
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Change Site Name</h4>
+                <p>Go to Site settings → Site details → Site information → "Change site name". Choose something memorable like <code>your-project.netlify.app</code>.</p>
+            </div>
+        </div>
+
+        <!-- Part 3: Daily Workflow -->
+        <h2>Part 3: Daily Workflow</h2>
+        <p>Once set up, updating your site is simple:</p>
+        
+        <div class="info-box">
+            <div class="info-box-title">🔄 Update Workflow</div>
+            <ol>
+                <li>Edit files locally</li>
+                <li>Run <code>git add . && git commit -m "message"</code></li>
+                <li>Run <code>git push</code></li>
+                <li>Netlify auto-deploys (~30 seconds)</li>
+                <li>Changes live on the web!</li>
+            </ol>
+        </div>
+
+        <h3>Common Commands</h3>
+        <pre><code># Check what's changed
+git status
+
+# Stage all changes
+git add .
+
+# Commit with a message
+git commit -m "Describe what you changed"
+
+# Push to GitHub (triggers Netlify deploy)
+git push
+
+# Pull latest changes (if working on multiple computers)
+git pull
+
+# See commit history
+git log --oneline</code></pre>
+
+        <!-- Command Reference -->
+        <h2>Command Reference</h2>
+        <pre><code># Clone an existing repo
+git clone https://github.com/username/repo.git
+
+# Undo uncommitted changes to a file
+git checkout -- filename
+
+# Create a new branch
+git checkout -b new-feature
+
+# Switch branches
+git checkout main
+
+# See remote URL
+git remote -v
+
+# Change remote URL
+git remote set-url origin NEW_URL</code></pre>
+
+        <!-- Troubleshooting -->
+        <h2>Troubleshooting</h2>
+        
+        <div class="info-box warning">
+            <div class="info-box-title">"Permission denied" when pushing?</div>
+            <p>Set up SSH keys following the <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">GitHub SSH Guide</a>, or use HTTPS with a personal access token.</p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Netlify build failed?</div>
+            <p>Check the deploy log in Netlify for errors. For static HTML sites, this usually means a file path issue or missing file.</p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Changes not showing on live site?</div>
+            <p>Wait 30-60 seconds for the deploy to complete. Then hard refresh your browser: <code>Cmd+Shift+R</code> (Mac) or <code>Ctrl+Shift+R</code> (Windows).</p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Git says "nothing to commit"?</div>
+            <p>You haven't made any changes since your last commit, or you need to save your files first.</p>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center; margin-top: var(--space-2xl);">
+            <a href="../index.html#tutorials" class="back-link">← Back to All Tutorials</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>
