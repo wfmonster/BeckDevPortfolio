@@ -183,6 +183,20 @@ body {
     line-height: 1.8;
 }
 
+/* Hero Social Links */
+.hero-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+}
+
+.hero-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /* ---------- Navigation ---------- */
 .main-nav {
     display: flex;

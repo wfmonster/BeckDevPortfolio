@@ -51,6 +51,11 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 
 ### Content
 - [ ] Add more tutorials:
+  - [ ] Running Local LLMs on Raspberry Pi
+  - [ ] Building an Offline AI Assistant with LlamaIndex
+  - [ ] Introduction to Machine Learning for Makers
+  - [ ] Self-Hosted Jupyter Notebooks for Research
+  - [ ] Docker for Researchers: Reproducible Environments
   - [ ] Setting up Pi-hole for network-wide ad blocking
   - [ ] Building a solar-powered Raspberry Pi
   - [ ] Self-hosting Nextcloud
@@ -58,6 +63,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - [ ] Home automation with Home Assistant
 - [ ] Add a blog/articles section for shorter posts
 - [ ] Create "About Me" expanded page with background/journey
+- [ ] Add Research & Publications section
 
 ### Design
 - [ ] Add tutorial thumbnail images
@@ -74,7 +80,10 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 ### Integration
 - [ ] Link to Apollo Community Hub repo
 - [ ] Add links to live demos where applicable
-- [ ] Connect actual social media profiles
+- [x] Connect GitHub profile (https://github.com/wfmonster/)
+- [ ] Add Google Scholar link
+- [ ] Add ORCID link
+- [ ] Add LinkedIn link
 
 ---
 
