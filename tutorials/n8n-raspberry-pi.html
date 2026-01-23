@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmission #007: Offline n8n Automation on Raspberry Pi | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/thin/style.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon"><i class="ph-thin ph-house"></i></span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link active">
+            <span class="nav-icon"><i class="ph-thin ph-book-open"></i></span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link">
+            <span class="nav-icon"><i class="ph-thin ph-rocket-launch"></i></span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon"><i class="ph-thin ph-envelope"></i></span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
+        <div class="article-version-info">
+            <span><span class="label">Version:</span> 1.0</span>
+            <span><span class="label">Last Updated:</span> January 23, 2026</span>
+        </div>
+        <h1>Transmission #007:<br> Offline n8n Automation on Raspberry Pi</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">n8n</span>
+            <span class="tutorial-tag">Raspberry Pi</span>
+            <span class="tutorial-tag">Off-Grid</span>
+            <span class="tutorial-tag">Meshtastic</span>
+            <span class="tutorial-tag difficulty-intermediate">Intermediate</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            Build a resilient, local-first automation system that works without internet—perfect for 
+            off-grid deployments, privacy-focused setups, and edge computing.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <div class="info-box" style="margin-bottom: var(--space-lg);">
+            <div class="info-box-title">☁️ Need always-on cloud automation?</div>
+            <p>
+                Check out <a href="n8n-hostinger-vps.html">Transmission #006: Meshtastic Weather Alert Relay with n8n</a> 
+                for a VPS-based setup that's always accessible from anywhere.
+            </p>
+        </div>
+
+        <h2>Overview</h2>
+        <p>
+            This tutorial builds on <a href="n8n-hostinger-vps.html">Transmission #006</a>, but instead 
+            of a cloud VPS, we're deploying n8n on a Raspberry Pi. This gives you:
+        </p>
+        <ul>
+            <li><strong>Complete offline operation</strong> — Works without internet connectivity</li>
+            <li><strong>Local-first privacy</strong> — Your data never leaves your network</li>
+            <li><strong>Low power consumption</strong> — ~5W idle, solar-friendly</li>
+            <li><strong>Physical control</strong> — Your hardware, your rules</li>
+            <li><strong>Edge computing</strong> — Process data where it's generated</li>
+        </ul>
+
+        <div class="info-box">
+            <div class="info-box-title">🔌 Resilient Edge Automation</div>
+            <p>
+                This setup is ideal for off-grid communities, remote monitoring stations, emergency 
+                communication hubs, or anywhere you need automation that doesn't depend on cloud services.
+            </p>
+        </div>
+
+        <div class="materials-list">
+            <h3>What You'll Need</h3>
+            <ul>
+                <li><strong>Raspberry Pi 4 or 5</strong> (4GB+ RAM recommended)</li>
+                <li><strong>MicroSD card</strong> (32GB+ recommended) or SSD for better performance</li>
+                <li><strong>Power supply</strong> (official Pi power supply or 5V/3A USB-C)</li>
+                <li><strong>Meshtastic node</strong> with MQTT enabled</li>
+                <li><strong>Local network</strong> (WiFi or Ethernet)</li>
+                <li><strong>Optional:</strong> Case, heatsinks, fan for cooling</li>
+            </ul>
+        </div>
+
+        <h2>Part 1: Preparing Your Raspberry Pi</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Flash Raspberry Pi OS</h4>
+                <p>
+                    Download and install <a href="https://www.raspberrypi.com/software/" target="_blank">Raspberry Pi Imager</a>. 
+                    Flash <strong>Raspberry Pi OS Lite (64-bit)</strong> to your SD card.
+                </p>
+                <p>In the imager settings (gear icon), configure:</p>
+                <ul>
+                    <li><strong>Hostname:</strong> n8n-edge (or your preference)</li>
+                    <li><strong>Enable SSH:</strong> Yes, with password authentication</li>
+                    <li><strong>Username/Password:</strong> Set a secure password</li>
+                    <li><strong>WiFi:</strong> Configure if not using Ethernet</li>
+                    <li><strong>Locale:</strong> Set your timezone</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Boot and Connect</h4>
+                <p>Insert the SD card, connect power, and wait ~2 minutes for first boot.</p>
+                <p>Find your Pi's IP address (check your router, or use <code>ping n8n-edge.local</code>).</p>
+                <p>SSH into your Pi:</p>
+                <pre><code>ssh pi@n8n-edge.local
+# or
+ssh pi@192.168.x.x</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Update the System</h4>
+                <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>You should be logged into your Pi via SSH with a fully updated system.</p>
+        </div>
+
+        <h2>Part 2: Installing Docker</h2>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Install Docker</h4>
+                <pre><code>curl -fsSL https://get.docker.com | sh</code></pre>
+                <p>Add your user to the docker group (so you don't need sudo):</p>
+                <pre><code>sudo usermod -aG docker $USER</code></pre>
+                <p>Log out and back in for the group change to take effect:</p>
+                <pre><code>exit
+ssh pi@n8n-edge.local</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Install Docker Compose</h4>
+                <pre><code>sudo apt install -y docker-compose-plugin</code></pre>
+                <p>Verify installation:</p>
+                <pre><code>docker --version
+docker compose version</code></pre>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>Both commands should return version numbers without errors.</p>
+        </div>
+
+        <h2>Part 3: Installing a Local MQTT Broker</h2>
+        <p>
+            Unlike the cloud setup that uses the public Meshtastic MQTT server, we'll run our own 
+            MQTT broker locally. This keeps all traffic on your network—no internet required.
+        </p>
+
+        <div class="step">
+            <div class="step-number">6</div>
+            <div class="step-content">
+                <h4>Create Project Directory</h4>
+                <pre><code>mkdir -p ~/n8n-edge
+cd ~/n8n-edge</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">7</div>
+            <div class="step-content">
+                <h4>Create Docker Compose File</h4>
+                <pre><code>nano docker-compose.yml</code></pre>
+                <p>Paste the following configuration:</p>
+                <pre><code>version: '3.8'
+
+services:
+  # MQTT Broker
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    restart: always
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  # n8n Automation
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=n8n-edge.local
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - GENERIC_TIMEZONE=America/Chicago
+      - N8N_SECURE_COOKIE=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - mosquitto
+
+volumes:
+  n8n_data:</code></pre>
+                <p>Save with <code>Ctrl+X</code>, then <code>Y</code>, then <code>Enter</code>.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">8</div>
+            <div class="step-content">
+                <h4>Configure Mosquitto</h4>
+                <pre><code>mkdir -p mosquitto/config mosquitto/data mosquitto/log
+nano mosquitto/config/mosquitto.conf</code></pre>
+                <p>Add this configuration:</p>
+                <pre><code>listener 1883
+allow_anonymous true
+persistence true
+persistence_location /mosquitto/data/
+log_dest file /mosquitto/log/mosquitto.log</code></pre>
+                <p>Save the file.</p>
+            </div>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">⚠️ Security Note</div>
+            <p>
+                We're using <code>allow_anonymous true</code> for simplicity on a local network. 
+                For production or exposed networks, configure username/password authentication.
+            </p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">9</div>
+            <div class="step-content">
+                <h4>Start the Services</h4>
+                <pre><code>docker compose up -d</code></pre>
+                <p>Check that both containers are running:</p>
+                <pre><code>docker ps</code></pre>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>You should see both <code>mosquitto</code> and <code>n8n</code> containers running. 
+            Access n8n at <code>http://n8n-edge.local:5678</code> in your browser.</p>
+        </div>
+
+        <h2>Part 4: Configuring Meshtastic for Local MQTT</h2>
+        <p>
+            Now we'll point your Meshtastic node to your local MQTT broker instead of the public one.
+        </p>
+
+        <div class="step">
+            <div class="step-number">10</div>
+            <div class="step-content">
+                <h4>Configure MQTT on Meshtastic</h4>
+                <p>In the Meshtastic app, go to <strong>Settings → Module Settings → MQTT</strong>:</p>
+                <ul>
+                    <li><strong>Enabled:</strong> On</li>
+                    <li><strong>MQTT Server:</strong> <code>n8n-edge.local</code> (or your Pi's IP)</li>
+                    <li><strong>MQTT Port:</strong> 1883</li>
+                    <li><strong>Username:</strong> (leave blank)</li>
+                    <li><strong>Password:</strong> (leave blank)</li>
+                    <li><strong>Encryption Enabled:</strong> On</li>
+                    <li><strong>JSON Enabled:</strong> On</li>
+                    <li><strong>TLS Enabled:</strong> Off (local network)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">11</div>
+            <div class="step-content">
+                <h4>Test MQTT Connection</h4>
+                <p>Install an MQTT client on your Pi to verify messages are flowing:</p>
+                <pre><code>sudo apt install -y mosquitto-clients
+
+# Subscribe to all Meshtastic topics
+mosquitto_sub -h localhost -t "msh/#" -v</code></pre>
+                <p>Send a message from your Meshtastic device—you should see it appear in the terminal.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>Messages from your Meshtastic device should appear in the <code>mosquitto_sub</code> output. 
+            Press <code>Ctrl+C</code> to stop subscribing.</p>
+        </div>
+
+        <h2>Part 5: Setting Up n8n</h2>
+
+        <div class="step">
+            <div class="step-number">12</div>
+            <div class="step-content">
+                <h4>Create Your n8n Account</h4>
+                <p>
+                    Open <code>http://n8n-edge.local:5678</code> in your browser. Create an owner account 
+                    with a strong password.
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">13</div>
+            <div class="step-content">
+                <h4>Add MQTT Credentials</h4>
+                <p>Go to <strong>Settings → Credentials → Add Credential → MQTT</strong>:</p>
+                <ul>
+                    <li><strong>Name:</strong> Local Mosquitto</li>
+                    <li><strong>Protocol:</strong> mqtt://</li>
+                    <li><strong>Host:</strong> mosquitto (Docker network name)</li>
+                    <li><strong>Port:</strong> 1883</li>
+                    <li><strong>Username/Password:</strong> (leave blank)</li>
+                </ul>
+                <p>Click <strong>Save</strong>.</p>
+            </div>
+        </div>
+
+        <h2>Part 6: Building Offline-Capable Workflows</h2>
+        <p>
+            Since we're running offline, we can't fetch weather from the internet. Instead, let's 
+            build workflows that work entirely on your local network.
+        </p>
+
+        <h3>Workflow 1: Mesh Message Logger</h3>
+        <p>Log all Meshtastic messages to a local file for later review.</p>
+
+        <div class="step">
+            <div class="step-number">14</div>
+            <div class="step-content">
+                <h4>Create the Workflow</h4>
+                <p>Create a new workflow called "Mesh Message Logger".</p>
+                <p>Add an <strong>MQTT Trigger</strong> node:</p>
+                <ul>
+                    <li><strong>Credentials:</strong> Local Mosquitto</li>
+                    <li><strong>Topics:</strong> <code>msh/#</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">15</div>
+            <div class="step-content">
+                <h4>Add a Write File Node</h4>
+                <p>Connect a <strong>Write Binary File</strong> node (or use the Code node for text):</p>
+                <ul>
+                    <li><strong>File Name:</strong> <code>/home/node/.n8n/mesh-log.txt</code></li>
+                    <li><strong>Append:</strong> Yes</li>
+                </ul>
+                <p>Or use a <strong>Code</strong> node to format the log entry:</p>
+                <pre><code>const timestamp = new Date().toISOString();
+const topic = $input.first().json.topic;
+const message = JSON.stringify($input.first().json.message);
+
+return [{
+  json: {
+    logEntry: `${timestamp} | ${topic} | ${message}\n`
+  }
+}];</code></pre>
+            </div>
+        </div>
+
+        <h3>Workflow 2: Scheduled System Status</h3>
+        <p>Send a daily status message to your mesh confirming the automation system is alive.</p>
+
+        <div class="step">
+            <div class="step-number">16</div>
+            <div class="step-content">
+                <h4>Create the Workflow</h4>
+                <p>Create a new workflow called "Daily System Status".</p>
+                <p>Add a <strong>Schedule Trigger</strong>:</p>
+                <ul>
+                    <li><strong>Trigger Interval:</strong> Days</li>
+                    <li><strong>Days Between Triggers:</strong> 1</li>
+                    <li><strong>Trigger at Hour:</strong> 8</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">17</div>
+            <div class="step-content">
+                <h4>Add System Info (Optional)</h4>
+                <p>Add an <strong>Execute Command</strong> node to get Pi stats:</p>
+                <pre><code>uptime -p && vcgencmd measure_temp</code></pre>
+                <p>This returns uptime and CPU temperature.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">18</div>
+            <div class="step-content">
+                <h4>Add MQTT Publish Node</h4>
+                <p>Connect an <strong>MQTT</strong> node:</p>
+                <ul>
+                    <li><strong>Credentials:</strong> Local Mosquitto</li>
+                    <li><strong>Topic:</strong> <code>msh/US/2/json/LongFast</code></li>
+                    <li><strong>Message:</strong> <code>📡 Edge node online. {{ $json.stdout }}</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Workflow 3: Mesh-to-Mesh Relay</h3>
+        <p>Forward messages from one channel to another (useful for bridging networks).</p>
+
+        <div class="step">
+            <div class="step-number">19</div>
+            <div class="step-content">
+                <h4>Create Relay Workflow</h4>
+                <p>Add an <strong>MQTT Trigger</strong> subscribed to one channel:</p>
+                <ul>
+                    <li><strong>Topic:</strong> <code>msh/US/2/json/ChannelA/#</code></li>
+                </ul>
+                <p>Add an <strong>IF</strong> node to filter (e.g., only relay messages containing "ALERT").</p>
+                <p>Add an <strong>MQTT</strong> publish node to the other channel:</p>
+                <ul>
+                    <li><strong>Topic:</strong> <code>msh/US/2/json/ChannelB</code></li>
+                    <li><strong>Message:</strong> <code>[RELAY] {{ $json.message.payload.text }}</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Part 7: Making It Truly Resilient</h2>
+
+        <div class="step">
+            <div class="step-number">20</div>
+            <div class="step-content">
+                <h4>Enable Auto-Start on Boot</h4>
+                <p>Docker containers are already set to <code>restart: always</code>, but ensure Docker 
+                starts on boot:</p>
+                <pre><code>sudo systemctl enable docker</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">21</div>
+            <div class="step-content">
+                <h4>Set Up a Watchdog</h4>
+                <p>Create a simple health check script:</p>
+                <pre><code>nano ~/n8n-edge/healthcheck.sh</code></pre>
+                <p>Add:</p>
+                <pre><code>#!/bin/bash
+# Check if n8n is responding
+if ! curl -s http://localhost:5678/healthz > /dev/null; then
+    echo "n8n not responding, restarting..."
+    cd ~/n8n-edge && docker compose restart n8n
+fi
+
+# Check if mosquitto is responding
+if ! mosquitto_pub -h localhost -t "healthcheck" -m "ping" 2>/dev/null; then
+    echo "Mosquitto not responding, restarting..."
+    cd ~/n8n-edge && docker compose restart mosquitto
+fi</code></pre>
+                <p>Make it executable and add to cron:</p>
+                <pre><code>chmod +x ~/n8n-edge/healthcheck.sh
+crontab -e</code></pre>
+                <p>Add this line to run every 5 minutes:</p>
+                <pre><code>*/5 * * * * /home/pi/n8n-edge/healthcheck.sh >> /home/pi/n8n-edge/healthcheck.log 2>&1</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">22</div>
+            <div class="step-content">
+                <h4>Consider UPS/Battery Backup</h4>
+                <p>
+                    For true resilience, add a UPS HAT or battery pack. The Pi can run for hours on a 
+                    small battery, and you can add a graceful shutdown script when power gets low.
+                </p>
+            </div>
+        </div>
+
+        <h2>Troubleshooting</h2>
+
+        <div class="info-box warning">
+            <div class="info-box-title">n8n Running Slow?</div>
+            <p>
+                The Pi 4 with 4GB RAM handles n8n well, but complex workflows may be slow. Consider:
+                using an SSD instead of SD card, increasing swap space, or upgrading to Pi 5.
+            </p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">MQTT Messages Not Arriving?</div>
+            <p>
+                Check that your Meshtastic node is on the same network as the Pi. Verify the MQTT 
+                server address matches your Pi's hostname or IP. Test with <code>mosquitto_sub</code>.
+            </p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Can't Access n8n from Other Devices?</div>
+            <p>
+                Make sure you're using the Pi's IP address or hostname, not <code>localhost</code>. 
+                Check that port 5678 isn't blocked by a firewall.
+            </p>
+        </div>
+
+        <h2>Next Steps</h2>
+        <ul>
+            <li><strong>Add sensors</strong> — Connect temperature, humidity, or other sensors to the Pi and log data via n8n</li>
+            <li><strong>Solar power</strong> — Run the entire setup off-grid with a solar panel and battery</li>
+            <li><strong>Multiple nodes</strong> — Deploy several Pi automation hubs across your mesh network</li>
+            <li><strong>Local AI</strong> — Add Ollama for local LLM processing (see Resilient Edge AI workshop)</li>
+            <li><strong>Home Assistant</strong> — Integrate with Home Assistant for smart home automation</li>
+        </ul>
+
+        <div class="info-box">
+            <div class="info-box-title">🔗 Related Tutorials</div>
+            <p>
+                <a href="n8n-hostinger-vps.html">Transmission #006: Cloud n8n on Hostinger VPS</a> — 
+                For always-on, internet-accessible automation<br>
+                <a href="meshtastic-mesh.html">Transmission #004: Meshtastic Mesh Network</a> — 
+                Complete guide to setting up your mesh
+            </p>
+        </div>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#tutorials" class="back-link">← Back to All Tutorials</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Glitch in the signal. Ghosts in the code. Dispatches from the Lab."</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>

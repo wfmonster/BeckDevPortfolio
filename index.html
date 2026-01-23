@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dr. Phyllis J. Beck | Developer & Educator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/thin/style.css">
 </head>
 <body>
     <!-- Scroll Progress Indicator -->
@@ -101,31 +102,31 @@
     <!-- Navigation -->
     <nav class="main-nav">
         <a href="#tutorials" class="nav-link active">
-            <span class="nav-icon">📖</span>
+            <span class="nav-icon"><i class="ph-thin ph-book-open"></i></span>
             <span class="nav-text">Tutorials</span>
         </a>
         <a href="#projects" class="nav-link">
-            <span class="nav-icon">🚀</span>
+            <span class="nav-icon"><i class="ph-thin ph-rocket-launch"></i></span>
             <span class="nav-text">Projects</span>
         </a>
         <a href="#workshops" class="nav-link">
-            <span class="nav-icon">🎤</span>
+            <span class="nav-icon"><i class="ph-thin ph-microphone-stage"></i></span>
             <span class="nav-text">Workshops</span>
         </a>
         <a href="#skills" class="nav-link">
-            <span class="nav-icon">✦</span>
+            <span class="nav-icon"><i class="ph-thin ph-star-four"></i></span>
             <span class="nav-text">Skills</span>
         </a>
         <a href="#publications" class="nav-link">
-            <span class="nav-icon">📄</span>
+            <span class="nav-icon"><i class="ph-thin ph-article"></i></span>
             <span class="nav-text">Research</span>
         </a>
         <a href="about.html" class="nav-link">
-            <span class="nav-icon">☉</span>
+            <span class="nav-icon"><i class="ph-thin ph-user-circle"></i></span>
             <span class="nav-text">About</span>
         </a>
         <a href="#contact" class="nav-link">
-            <span class="nav-icon">✉</span>
+            <span class="nav-icon"><i class="ph-thin ph-envelope"></i></span>
             <span class="nav-text">Contact</span>
         </a>
     </nav>
@@ -134,48 +135,25 @@
         <!-- Tutorials Section -->
         <section id="tutorials">
             <div class="section-header">
-                <span class="section-icon">📖</span>
+                <span class="section-icon"><i class="ph-thin ph-book-open"></i></span>
                 <h2>GlitchCraft Tutorials & Guides</h2>
             </div>
             
             <div class="tutorials-grid">
-                <!-- Tutorial: Meshtastic Heltec V2 (Most Recent) -->
-                <a href="tutorials/meshtastic-heltec-v2.html" class="tutorial-card tilt-card">
+                <!-- Tutorial: n8n on Raspberry Pi (Most Recent) -->
+                <a href="tutorials/n8n-raspberry-pi.html" class="tutorial-card tilt-card">
                     <div class="tutorial-card-inner">
-                        <div class="tutorial-icon">📻</div>
+                        <div class="tutorial-icon">🥧</div>
                         <div class="tutorial-content">
                             <div class="tutorial-meta">
-                                <span class="tutorial-tag">Meshtastic</span>
-                                <span class="tutorial-tag">ESP32</span>
-                                <span class="tutorial-tag difficulty-beginner">Beginner</span>
-                            </div>
-                            <h3 class="tutorial-title">Transmission #005: Installing Meshtastic on Heltec V2</h3>
-                            <p class="tutorial-excerpt">
-                                Flash Meshtastic firmware to your Heltec LoRa 32 V2 using esptool. 
-                                Command-line approach for reliable flashing with v2.5.6.
-                            </p>
-                            <div class="tutorial-footer">
-                                <span class="tutorial-date">January 2026</span>
-                                <span class="tutorial-read-more">Read Tutorial →</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Tutorial: Meshtastic Mesh Network -->
-                <a href="tutorials/meshtastic-mesh.html" class="tutorial-card tilt-card">
-                    <div class="tutorial-card-inner">
-                        <div class="tutorial-icon">📡</div>
-                        <div class="tutorial-content">
-                            <div class="tutorial-meta">
-                                <span class="tutorial-tag">Meshtastic</span>
-                                <span class="tutorial-tag">LoRa</span>
+                                <span class="tutorial-tag">n8n</span>
+                                <span class="tutorial-tag">Raspberry Pi</span>
                                 <span class="tutorial-tag difficulty-intermediate">Intermediate</span>
                             </div>
-                            <h3 class="tutorial-title">Transmission #004: Developing a Decentralized Mesh Network</h3>
+                            <h3 class="tutorial-title">Transmission #007: Offline n8n Automation on Raspberry Pi</h3>
                             <p class="tutorial-excerpt">
-                                Set up a resilient, off-grid communication network using Meshtastic and LoRa radios. 
-                                No internet, no cell towers—just community-powered mesh networking.
+                                Build a resilient, local-first automation system that works without internet. 
+                                Perfect for off-grid deployments and edge computing.
                             </p>
                             <div class="tutorial-footer">
                                 <span class="tutorial-date">January 2026</span>
@@ -185,8 +163,31 @@
                     </div>
                 </a>
 
-                <!-- Tutorial: GitHub & Netlify Guide -->
-                <a href="tutorials/github-netlify-guide.html" class="tutorial-card tilt-card">
+                <!-- Tutorial: n8n on Hostinger VPS -->
+                <a href="tutorials/n8n-hostinger-vps.html" class="tutorial-card tilt-card">
+                    <div class="tutorial-card-inner">
+                        <div class="tutorial-icon">⚡</div>
+                        <div class="tutorial-content">
+                            <div class="tutorial-meta">
+                                <span class="tutorial-tag">n8n</span>
+                                <span class="tutorial-tag">Automation</span>
+                                <span class="tutorial-tag difficulty-beginner">Beginner</span>
+                            </div>
+                            <h3 class="tutorial-title">Transmission #006: Meshtastic Weather Alert Relay with n8n</h3>
+                            <p class="tutorial-excerpt">
+                                Deploy your own automation server with n8n, then connect it to your 
+                                Meshtastic mesh for weather alerts and daily check-ins.
+                            </p>
+                            <div class="tutorial-footer">
+                                <span class="tutorial-date">January 2026</span>
+                                <span class="tutorial-read-more">Read Tutorial →</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tutorial: Meshtastic Heltec V2 -->
+                <a href="tutorials/meshtastic-heltec-v2.html" class="tutorial-card tilt-card">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">🚀</div>
                         <div class="tutorial-content">
@@ -217,7 +218,7 @@
         <!-- Projects Section -->
         <section id="projects" style="margin-top: var(--space-2xl);">
             <div class="section-header">
-                <span class="section-icon">🚀</span>
+                <span class="section-icon"><i class="ph-thin ph-rocket-launch"></i></span>
                 <h2>Featured Projects</h2>
             </div>
             
@@ -286,7 +287,7 @@
         <!-- Workshops Section -->
         <section id="workshops" style="margin-top: var(--space-2xl);">
             <div class="section-header">
-                <span class="section-icon">🎤</span>
+                <span class="section-icon"><i class="ph-thin ph-microphone-stage"></i></span>
                 <h2>Workshops & Training</h2>
             </div>
             
@@ -325,6 +326,19 @@
 
                 <div class="workshop-card available tilt-card">
                     <div class="workshop-badge">Available</div>
+                    <h3 class="workshop-title">Building Resilient Edge AI</h3>
+                    <p class="workshop-desc">
+                        Build private, local-first AI systems that work offline. Deploy self-hosted assistants 
+                        on Raspberry Pi or Jetson that search your documents, run automations, and stay secure—no 
+                        cloud required.
+                    </p>
+                    <a href="mailto:beck@beckbishop.com?subject=Resilient%20Edge%20AI%20Workshop%20Inquiry" class="workshop-cta">
+                        Inquire About Booking →
+                    </a>
+                </div>
+
+                <div class="workshop-card available tilt-card">
+                    <div class="workshop-badge">Available</div>
                     <h3 class="workshop-title">Custom AI & Tech Workshops</h3>
                     <p class="workshop-desc">
                         Looking for training on AI tools, prompt engineering, or resilient technology? 
@@ -344,7 +358,7 @@
         <!-- Skills Section -->
         <section id="skills" style="margin-top: var(--space-2xl);">
             <div class="section-header">
-                <span class="section-icon">✦</span>
+                <span class="section-icon"><i class="ph-thin ph-star-four"></i></span>
                 <h2>Skills & Technologies</h2>
             </div>
             
@@ -382,7 +396,7 @@
         <!-- Research & Publications Section -->
         <section id="publications" style="margin-top: var(--space-2xl);">
             <div class="section-header">
-                <span class="section-icon">📄</span>
+                <span class="section-icon"><i class="ph-thin ph-article"></i></span>
                 <h2>Research & Publications</h2>
             </div>
             
@@ -432,7 +446,7 @@
         <!-- Contact Section -->
         <section id="contact" style="margin-top: var(--space-2xl);">
             <div class="section-header">
-                <span class="section-icon">✉</span>
+                <span class="section-icon"><i class="ph-thin ph-envelope"></i></span>
                 <h2>Get In Touch</h2>
             </div>
             

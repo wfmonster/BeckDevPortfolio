@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmission #006: Automated Meshtastic Weather Alert Relay using n8n Hostinger VPS | Dr. Phyllis J. Beck</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/thin/style.css">
+</head>
+<body>
+    <!-- Starfield background -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-link">
+            <span class="nav-icon"><i class="ph-thin ph-house"></i></span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../index.html#tutorials" class="nav-link active">
+            <span class="nav-icon"><i class="ph-thin ph-book-open"></i></span>
+            <span class="nav-text">Tutorials</span>
+        </a>
+        <a href="../index.html#projects" class="nav-link">
+            <span class="nav-icon"><i class="ph-thin ph-rocket-launch"></i></span>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="../index.html#contact" class="nav-link">
+            <span class="nav-icon"><i class="ph-thin ph-envelope"></i></span>
+            <span class="nav-text">Contact</span>
+        </a>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
+        <div class="article-version-info">
+            <span><span class="label">Version:</span> 1.0</span>
+            <span><span class="label">Last Updated:</span> January 23, 2026</span>
+        </div>
+        <h1>Transmission #006:<br> Automated Meshtastic Weather Alert Relay with N8N</h1>
+        <div class="article-meta">
+            <span class="tutorial-tag">n8n</span>
+            <span class="tutorial-tag">Automation</span>
+            <span class="tutorial-tag">VPS</span>
+            <span class="tutorial-tag">Meshtastic</span>
+            <span class="tutorial-tag difficulty-beginner">Beginner</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: var(--space-md);">
+            Deploy your own automation server with n8n on Hostinger, then connect it to your Meshtastic mesh network.
+        </p>
+    </header>
+
+    <main class="article-content">
+        <div class="info-box" style="margin-bottom: var(--space-lg);">
+            <div class="info-box-title">🥧 Looking for offline resilient edge automation?</div>
+            <p>
+                Check out <a href="n8n-raspberry-pi.html">Transmission #007: Offline n8n Automation on Raspberry Pi</a> 
+                for a local-first setup that works without internet.
+            </p>
+        </div>
+
+        <h2>Overview</h2>
+        <p>
+            <a href="https://n8n.io" target="_blank">n8n</a> (pronounced "n-eight-n") is a powerful, 
+            open-source workflow automation tool—think Zapier or Make, but self-hosted and completely 
+            under your control. No subscription fees, no data leaving your server, no arbitrary limits.
+        </p>
+        <p>
+            In this tutorial, we'll deploy n8n on a Hostinger KVM2 VPS using their managed container 
+            system, then build two practical automations that connect to your Meshtastic mesh network:
+        </p>
+        <ul>
+            <li><strong>Weather Alert Relay</strong> — Automatically send severe weather alerts to your mesh</li>
+            <li><strong>Daily Check-in</strong> — Scheduled "good morning" message to confirm the system is alive</li>
+        </ul>
+
+        <div class="info-box">
+            <div class="info-box-title">💡 Why Self-Host?</div>
+            <p>
+                Cloud automation services charge per workflow, limit executions, and process your data 
+                on their servers. Self-hosting n8n gives you unlimited workflows, unlimited executions, 
+                and complete privacy—all for the cost of a small VPS (~$6-12/month).
+            </p>
+        </div>
+
+        <div class="materials-list">
+            <h3>What You'll Need</h3>
+            <ul>
+                <li><strong>Hostinger account</strong> with KVM2 VPS plan (~$6/month)</li>
+                <li><strong>Domain name</strong> (optional but recommended for SSL)</li>
+                <li><strong>Meshtastic node</strong> with MQTT enabled (for the automation examples)</li>
+                <li><strong>30-60 minutes</strong> for initial setup</li>
+            </ul>
+        </div>
+
+        <h2>Part 1: Setting Up Your Hostinger VPS</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Purchase a KVM2 VPS</h4>
+                <p>
+                    Go to <a href="https://www.hostinger.com/vps-hosting" target="_blank">Hostinger VPS Hosting</a> 
+                    and select the <strong>KVM2</strong> plan. This gives you:
+                </p>
+                <ul>
+                    <li>2 vCPU cores</li>
+                    <li>8 GB RAM</li>
+                    <li>100 GB NVMe storage</li>
+                    <li>8 TB bandwidth</li>
+                </ul>
+                <p>This is more than enough for n8n and several other self-hosted services.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Choose Your Operating System</h4>
+                <p>
+                    During setup, select <strong>Ubuntu 22.04</strong> as your OS. This is well-supported 
+                    and works great with Docker and n8n.
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Access Your VPS</h4>
+                <p>
+                    Once provisioned, go to your Hostinger dashboard → VPS → your server. Note your:
+                </p>
+                <ul>
+                    <li><strong>IP Address</strong> (e.g., 123.45.67.89)</li>
+                    <li><strong>Root password</strong> (set during creation)</li>
+                </ul>
+                <p>You can connect via the built-in terminal in Hostinger's panel, or SSH from your computer:</p>
+                <pre><code>ssh root@your-server-ip</code></pre>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>You should be logged into your VPS terminal and see a prompt like <code>root@vps:~#</code></p>
+        </div>
+
+        <h2>Part 2: Installing n8n with Docker</h2>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Update Your System</h4>
+                <pre><code>apt update && apt upgrade -y</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Install Docker</h4>
+                <p>Hostinger's Ubuntu image may have Docker pre-installed. Check with:</p>
+                <pre><code>docker --version</code></pre>
+                <p>If not installed, run:</p>
+                <pre><code>curl -fsSL https://get.docker.com | sh</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">6</div>
+            <div class="step-content">
+                <h4>Create n8n Directory</h4>
+                <pre><code>mkdir -p /opt/n8n
+cd /opt/n8n</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">7</div>
+            <div class="step-content">
+                <h4>Create Docker Compose File</h4>
+                <p>Create a new file:</p>
+                <pre><code>nano docker-compose.yml</code></pre>
+                <p>Paste the following configuration:</p>
+                <pre><code>version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=your-domain.com
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://your-domain.com/
+      - GENERIC_TIMEZONE=America/Chicago
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:</code></pre>
+                <p>
+                    Replace <code>your-domain.com</code> with your actual domain, or use your server's 
+                    IP address if you don't have a domain (change protocol to <code>http</code> in that case).
+                </p>
+                <p>Save with <code>Ctrl+X</code>, then <code>Y</code>, then <code>Enter</code>.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">8</div>
+            <div class="step-content">
+                <h4>Start n8n</h4>
+                <pre><code>docker compose up -d</code></pre>
+                <p>This downloads the n8n image and starts the container in the background.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>Run <code>docker ps</code> — you should see the n8n container running. Access n8n at 
+            <code>http://your-server-ip:5678</code> in your browser.</p>
+        </div>
+
+        <h2>Part 3: Setting Up SSL (Recommended)</h2>
+        <p>
+            For security, you'll want HTTPS. We'll use Caddy as a reverse proxy—it handles SSL 
+            certificates automatically.
+        </p>
+
+        <div class="step">
+            <div class="step-number">9</div>
+            <div class="step-content">
+                <h4>Point Your Domain to Your VPS</h4>
+                <p>
+                    In your domain registrar's DNS settings, create an <strong>A record</strong> pointing 
+                    to your VPS IP address:
+                </p>
+                <ul>
+                    <li><strong>Type:</strong> A</li>
+                    <li><strong>Name:</strong> n8n (or @ for root domain)</li>
+                    <li><strong>Value:</strong> your-server-ip</li>
+                    <li><strong>TTL:</strong> 3600</li>
+                </ul>
+                <p>Wait a few minutes for DNS propagation.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">10</div>
+            <div class="step-content">
+                <h4>Install Caddy</h4>
+                <pre><code>apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+apt update
+apt install caddy</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">11</div>
+            <div class="step-content">
+                <h4>Configure Caddy</h4>
+                <pre><code>nano /etc/caddy/Caddyfile</code></pre>
+                <p>Replace the contents with:</p>
+                <pre><code>n8n.your-domain.com {
+    reverse_proxy localhost:5678
+}</code></pre>
+                <p>Save and restart Caddy:</p>
+                <pre><code>systemctl restart caddy</code></pre>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>Visit <code>https://n8n.your-domain.com</code> — you should see the n8n setup screen with 
+            a valid SSL certificate (green padlock).</p>
+        </div>
+
+        <h2>Part 4: Initial n8n Configuration</h2>
+
+        <div class="step">
+            <div class="step-number">12</div>
+            <div class="step-content">
+                <h4>Create Your Account</h4>
+                <p>
+                    On first visit, n8n will prompt you to create an owner account. Use a strong password—this 
+                    is your automation command center!
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">13</div>
+            <div class="step-content">
+                <h4>Explore the Interface</h4>
+                <p>Take a moment to familiarize yourself with n8n:</p>
+                <ul>
+                    <li><strong>Workflows</strong> — Your automations live here</li>
+                    <li><strong>Credentials</strong> — API keys and connection settings</li>
+                    <li><strong>Executions</strong> — Logs of workflow runs</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Part 5: Setting Up Meshtastic MQTT Bridge</h2>
+        <p>
+            To connect n8n to your Meshtastic network, we'll use MQTT—a lightweight messaging protocol. 
+            Meshtastic can publish messages to an MQTT broker, and n8n can subscribe to receive them 
+            (or publish to send messages to the mesh).
+        </p>
+
+        <div class="info-box warning">
+            <div class="info-box-title">⚠️ Prerequisites</div>
+            <p>
+                You'll need at least one Meshtastic node with MQTT enabled. This node acts as a gateway 
+                between your mesh network and the internet.
+            </p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">14</div>
+            <div class="step-content">
+                <h4>Enable MQTT on Your Meshtastic Node</h4>
+                <p>In the Meshtastic app, go to <strong>Settings → Module Settings → MQTT</strong>:</p>
+                <ul>
+                    <li><strong>Enabled:</strong> On</li>
+                    <li><strong>MQTT Server:</strong> mqtt.meshtastic.org (public) or your own broker</li>
+                    <li><strong>Username/Password:</strong> Leave blank for public broker</li>
+                    <li><strong>Encryption Enabled:</strong> On (recommended)</li>
+                    <li><strong>JSON Enabled:</strong> On (makes parsing easier in n8n)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">15</div>
+            <div class="step-content">
+                <h4>Note Your MQTT Topic</h4>
+                <p>
+                    Meshtastic publishes to topics like: <code>msh/US/2/json/LongFast/!abcd1234</code>
+                </p>
+                <p>The format is: <code>msh/{region}/{channel_index}/json/{channel_name}/{node_id}</code></p>
+                <p>To receive all messages from your mesh, subscribe to: <code>msh/US/2/json/#</code></p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">🔒 Private MQTT Broker</div>
+            <p>
+                For better security, consider running your own MQTT broker (like Mosquitto) on your VPS. 
+                This keeps your mesh traffic private. We'll cover this in a future tutorial.
+            </p>
+        </div>
+
+        <h2>Part 6: Building the Weather Alert Workflow</h2>
+        <p>
+            Our first automation fetches weather data and sends severe weather alerts to your Meshtastic network.
+        </p>
+
+        <div class="step">
+            <div class="step-number">16</div>
+            <div class="step-content">
+                <h4>Get a Weather API Key</h4>
+                <p>
+                    Sign up for a free account at <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap</a>. 
+                    The free tier allows 1,000 API calls per day—plenty for hourly checks.
+                </p>
+                <p>Copy your API key from the dashboard.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">17</div>
+            <div class="step-content">
+                <h4>Create a New Workflow</h4>
+                <p>In n8n, click <strong>+ New Workflow</strong>. Name it "Weather Alert Relay".</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">18</div>
+            <div class="step-content">
+                <h4>Add a Schedule Trigger</h4>
+                <p>Click <strong>+</strong> to add a node, search for <strong>Schedule Trigger</strong>:</p>
+                <ul>
+                    <li><strong>Trigger Interval:</strong> Hours</li>
+                    <li><strong>Hours Between Triggers:</strong> 1</li>
+                </ul>
+                <p>This checks the weather every hour.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">19</div>
+            <div class="step-content">
+                <h4>Add HTTP Request Node</h4>
+                <p>Add an <strong>HTTP Request</strong> node connected to the trigger:</p>
+                <ul>
+                    <li><strong>Method:</strong> GET</li>
+                    <li><strong>URL:</strong> <code>https://api.openweathermap.org/data/2.5/weather?q=YourCity&appid=YOUR_API_KEY&units=imperial</code></li>
+                </ul>
+                <p>Replace <code>YourCity</code> and <code>YOUR_API_KEY</code> with your values.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">20</div>
+            <div class="step-content">
+                <h4>Add IF Node for Alert Conditions</h4>
+                <p>Add an <strong>IF</strong> node to check for severe weather:</p>
+                <ul>
+                    <li><strong>Condition:</strong> Number</li>
+                    <li><strong>Value 1:</strong> <code>{{ $json.weather[0].id }}</code></li>
+                    <li><strong>Operation:</strong> Smaller</li>
+                    <li><strong>Value 2:</strong> 700</li>
+                </ul>
+                <p>
+                    OpenWeatherMap uses weather codes where &lt;700 indicates storms, rain, snow, etc. 
+                    Codes 800+ are clear/cloudy conditions.
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">21</div>
+            <div class="step-content">
+                <h4>Add MQTT Node</h4>
+                <p>Connect an <strong>MQTT</strong> node to the "true" output of the IF node:</p>
+                <ul>
+                    <li><strong>Credentials:</strong> Create new MQTT credentials
+                        <ul>
+                            <li>Host: mqtt.meshtastic.org</li>
+                            <li>Port: 1883</li>
+                            <li>Username/Password: (leave blank for public)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Topic:</strong> <code>msh/US/2/json/LongFast</code></li>
+                    <li><strong>Message:</strong> 
+                        <code>⚠️ WEATHER ALERT: {{ $json.weather[0].description }} - Temp: {{ $json.main.temp }}°F</code>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">22</div>
+            <div class="step-content">
+                <h4>Activate the Workflow</h4>
+                <p>Click <strong>Save</strong>, then toggle the workflow to <strong>Active</strong>.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>Click "Execute Workflow" to test. If there's weather with code &lt;700, you should see a 
+            message appear on your Meshtastic devices!</p>
+        </div>
+
+        <h2>Part 7: Building the Daily Check-in Workflow</h2>
+        <p>
+            This simple workflow sends a daily message to confirm your automation system is running.
+        </p>
+
+        <div class="step">
+            <div class="step-number">23</div>
+            <div class="step-content">
+                <h4>Create New Workflow</h4>
+                <p>Create a new workflow called "Daily Check-in".</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">24</div>
+            <div class="step-content">
+                <h4>Add Schedule Trigger</h4>
+                <ul>
+                    <li><strong>Trigger Interval:</strong> Days</li>
+                    <li><strong>Days Between Triggers:</strong> 1</li>
+                    <li><strong>Trigger at Hour:</strong> 8 (8 AM)</li>
+                    <li><strong>Trigger at Minute:</strong> 0</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">25</div>
+            <div class="step-content">
+                <h4>Add Date/Time Node</h4>
+                <p>Add a <strong>Date & Time</strong> node to get the current date formatted nicely:</p>
+                <ul>
+                    <li><strong>Action:</strong> Format a Date</li>
+                    <li><strong>Date:</strong> <code>{{ $now }}</code></li>
+                    <li><strong>Format:</strong> MMMM d, yyyy</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">26</div>
+            <div class="step-content">
+                <h4>Add MQTT Node</h4>
+                <p>Connect an MQTT node:</p>
+                <ul>
+                    <li><strong>Topic:</strong> <code>msh/US/2/json/LongFast</code></li>
+                    <li><strong>Message:</strong> <code>☀️ Good morning! n8n check-in for {{ $json.formattedDate }}. All systems operational.</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">27</div>
+            <div class="step-content">
+                <h4>Activate and Test</h4>
+                <p>Save and activate the workflow. Click "Execute Workflow" to test immediately.</p>
+            </div>
+        </div>
+
+        <h2>Troubleshooting</h2>
+
+        <div class="info-box warning">
+            <div class="info-box-title">n8n Won't Start?</div>
+            <p>Check Docker logs: <code>docker logs n8n</code></p>
+            <p>Common issues: port 5678 already in use, insufficient memory, volume permissions.</p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">MQTT Messages Not Arriving?</div>
+            <p>
+                Verify your Meshtastic node has MQTT enabled and is connected to WiFi. Check that 
+                JSON output is enabled. Test with an MQTT client like MQTT Explorer to confirm 
+                messages are being published.
+            </p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">SSL Certificate Issues?</div>
+            <p>
+                Ensure your domain's DNS is pointing to your VPS IP. Check Caddy logs: 
+                <code>journalctl -u caddy</code>. Caddy automatically obtains certificates, but 
+                needs port 80 and 443 open.
+            </p>
+        </div>
+
+        <h2>Next Steps</h2>
+        <p>Now that you have n8n running with Meshtastic integration, consider these expansions:</p>
+        <ul>
+            <li><strong>Add more weather conditions</strong> — Check for extreme heat, wind, or UV index</li>
+            <li><strong>Mesh → Email bridge</strong> — Forward important mesh messages to your inbox</li>
+            <li><strong>Node health monitoring</strong> — Alert if a mesh node goes offline</li>
+            <li><strong>Home Assistant integration</strong> — Control smart home devices via mesh</li>
+            <li><strong>Run your own MQTT broker</strong> — For complete privacy and control</li>
+        </ul>
+
+        <p>
+            Want to run n8n locally without a cloud server? Check out the upcoming 
+            <strong>Transmission #007: Self-Hosted n8n on Raspberry Pi</strong> for an off-grid alternative.
+        </p>
+
+        <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <a href="../index.html#tutorials" class="back-link">← Back to All Tutorials</a>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p class="footer-motto">"Glitch in the signal. Ghosts in the code. Dispatches from the Lab."</p>
+            <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
+        </div>
+        <div class="footer-decoration">
+            <span>◉</span>
+        </div>
+    </footer>
+</body>
+</html>

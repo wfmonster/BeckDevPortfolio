@@ -626,6 +626,14 @@ body {
 .nav-icon {
     font-size: 1.2rem;
     margin-bottom: var(--space-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon i {
+    font-size: 1.4rem;
+    line-height: 1;
 }
 
 /* Social Links in Nav */
@@ -680,6 +688,13 @@ body {
 .section-icon {
     font-size: 1.3rem;
     color: var(--apollo-gold);
+    display: flex;
+    align-items: center;
+}
+
+.section-icon i {
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .section-footer {
