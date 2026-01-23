@@ -59,9 +59,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - [ ] Docker for Researchers: Reproducible Environments
   - [ ] Setting up Pi-hole for network-wide ad blocking
   - [ ] Building a solar-powered Raspberry Pi
-  - [ ] Self-hosting Nextcloud
   - [ ] Introduction to Ham Radio for beginners
-  - [ ] Home automation with Home Assistant
 - [ ] Add a blog/articles section for shorter posts
 - [ ] Create dedicated workshop detail pages
 - [ ] Add workshop booking/scheduling system
@@ -92,7 +90,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 - [x] Connect GitHub profile (https://github.com/wfmonster/)
 - [x] Add Google Scholar link (https://scholar.google.com/citations?user=NC5qb5oAAAAJ&hl=en)
 - [x] Add ORCID link (https://orcid.org/0009-0000-8699-5771)
-- [ ] Add LinkedIn link (URL needed)
+- [x] Add LinkedIn link (https://www.linkedin.com/in/phyllisbeck/)
 - [x] Add contact email (beck@beckbishop.com)
 
 ---
@@ -164,3 +162,32 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - Hero section padding adjustments
   - Visualizer positioned between hero and navigation
   - Bottom-aligned tuning elements
+
+### v1.6.0 (January 20, 2026)
+- **Interactive Effects** - New micro-animations and enhancements (effects.js)
+  - **Typing Effect**: Hero title cycles through roles with blinking cursor
+    - "Full-Stack AI Engineer" → "Researcher" → "Educator" → "Creative Technologist"
+    - Configurable type/delete speeds and pause durations
+  - **3D Card Tilt**: Cards respond to mouse position with subtle 3D rotation
+    - Applied to tutorial, project, workshop, and publication cards
+    - 8° max tilt with 1.02x scale on hover
+  - **Parallax Starfield**: Two star layers move at different speeds on scroll
+    - Creates depth with distant/close star layers
+    - Performance-optimized with requestAnimationFrame
+  - **Scroll Progress Indicator**: Gradient bar at top of page
+    - Teal→gold→orange gradient matching theme
+    - Glowing effect, fills as user scrolls
+- **File Structure**
+  - New file: effects.js (typing, tilt, parallax, scroll progress)
+  - radio-visualizer.js (radio tuner interactions)
+  - Clean separation of concerns
+
+### v1.7.0 (January 23, 2026)
+- **New Tutorial**: tutorials/meshtastic-heltec-v2.html
+  - Step-by-step guide for flashing Meshtastic v2.5.6 to Heltec LoRa 32 V2
+  - Command-line approach using esptool
+  - Explains complete vs update firmware files
+  - Troubleshooting section for common issues
+  - Links to main Meshtastic mesh tutorial
+- **Integration**
+  - Added LinkedIn profile link (https://www.linkedin.com/in/phyllisbeck/)
