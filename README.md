@@ -97,4 +97,4 @@ This project is open source. Feel free to use it as inspiration for your own por
 
 ---
 
-*"Where the light gathers"* ✨
+*"Glitch in the signal. Ghosts in the code. Dispatches from the Lab."* ✨

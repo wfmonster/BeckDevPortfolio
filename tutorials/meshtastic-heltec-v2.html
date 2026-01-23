@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installing Meshtastic on Heltec V2 | Dr. Phyllis J. Beck</title>
+    <title>Transmission #005: Installing Meshtastic on Heltec V2 | Dr. Phyllis J. Beck</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -34,7 +34,11 @@
     <!-- Article Header -->
     <header class="article-header">
         <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
-        <h1>Installing Meshtastic on Heltec V2</h1>
+        <div class="article-version-info">
+            <span><span class="label">Version:</span> 1.1</span>
+            <span><span class="label">Last Updated:</span> January 23, 2026</span>
+        </div>
+        <h1>Transmission #005: Installing Meshtastic on Heltec V2</h1>
         <div class="article-meta">
             <span class="tutorial-tag">Meshtastic</span>
             <span class="tutorial-tag">Heltec V2</span>
@@ -54,18 +58,25 @@
             the manual command-line approach using <code>esptool</code>.
         </p>
 
-        <div class="info-box">
-            <div class="info-box-title">📡 Heltec V2 Support</div>
+        <div class="info-box warning">
+            <div class="info-box-title">📡 Heltec V2 Support Status</div>
             <p>
-                The newest Meshtastic version that supports Heltec V2 is <strong>v2.5.6</strong>. 
-                Newer versions have dropped support for this hardware, so we'll use this specific release.
+                <strong>Heltec V2 is community-supported / legacy hardware.</strong> Many folks pin 
+                Heltec V2 installs to the 2.5.6-era ESP32 artifacts, or build from source if they 
+                want newer changes. Expect potential breakage with newer versions; no guarantees.
+            </p>
+            <p style="margin-top: var(--space-sm);">
+                This tutorial uses <strong>v2.5.6</strong> as the known-good version that works 
+                reliably with Heltec V2 hardware. See the 
+                <a href="https://meshtastic.org/blog/updates-to-supported-hardware/" target="_blank">Meshtastic hardware support updates</a> 
+                for more details on supported vs. community-supported devices.
             </p>
         </div>
 
         <div class="materials-list">
             <h3>What You'll Need</h3>
             <ul>
-                <li><strong>Heltec LoRa 32 V2</strong> board</li>
+                <li><strong>Heltec LoRa 32 V2</strong> board (check your board label—V2.0 vs V2.1)</li>
                 <li><strong>USB cable</strong> (data-capable, not charge-only)</li>
                 <li><strong>Python 3</strong> installed on your computer</li>
                 <li><strong>Terminal/Command Line</strong> access</li>
@@ -87,26 +98,94 @@
             </div>
         </div>
 
-        <h2>Step 2: Download the Firmware</h2>
-        <p>
-            Download the correct firmware version for Heltec V2 from the Meshtastic GitHub releases.
-        </p>
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>Verify esptool installed correctly:</p>
+            <pre><code>python -m esptool version</code></pre>
+            <p>You should see a version number (e.g., <code>esptool.py v4.x.x</code>). On Windows, you can also try <code>esptool.py version</code>.</p>
+        </div>
+
+        <h2>Step 2: Connect Your Device</h2>
 
         <div class="step">
             <div class="step-number">2</div>
             <div class="step-content">
-                <h4>Download v2.5.6 Firmware</h4>
-                <p>Get the ESP32 firmware package from:</p>
-                <pre><code>https://github.com/meshtastic/firmware/releases/download/v2.5.6.d55c08d/firmware-esp32-2.5.6.d55c08d.zip</code></pre>
+                <h4>Connect via USB</h4>
+                <p>
+                    Plug your Heltec V2 into your computer using a USB cable. 
+                    Make sure it's a data cable, not a charge-only cable.
+                </p>
             </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p><strong>Mac:</strong> Run this command to see if a new USB device appears:</p>
+            <pre><code>ls /dev/tty.* | grep -i usb</code></pre>
+            <p>You should see something like <code>/dev/tty.usbserial-0001</code> or <code>/dev/tty.SLAB_USBtoUART</code>.</p>
+            <p style="margin-top: var(--space-sm);"><strong>Linux:</strong> Check <code>ls /dev/ttyUSB*</code> or <code>ls /dev/ttyACM*</code></p>
+            <p style="margin-top: var(--space-sm);"><strong>Windows:</strong> Check Device Manager → Ports (COM & LPT) for a new COM port.</p>
         </div>
 
         <div class="step">
             <div class="step-number">3</div>
             <div class="step-content">
-                <h4>Extract the Firmware</h4>
-                <p>Unzip the downloaded file. You'll find several <code>.bin</code> files inside. 
-                Look for the ones starting with <code>firmware-heltec-v2_0</code>.</p>
+                <h4>Verify Device Connectivity</h4>
+                <p>Before flashing, confirm esptool can talk to your device. This prevents most failures:</p>
+                <pre><code># Mac example (replace with your port)
+python -m esptool --port /dev/tty.usbserial-0001 chip_id
+
+# Linux example
+python -m esptool --port /dev/ttyUSB0 chip_id
+
+# Windows example
+python -m esptool --port COM3 chip_id</code></pre>
+                <p>You should see chip information including the MAC address.</p>
+            </div>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">⚠️ Device Not Detected?</div>
+            <p>
+                <strong>Try bootloader mode:</strong> Hold the <strong>PRG</strong> button while plugging 
+                in the USB cable. Keep holding until you see the port appear. This forces the device 
+                into download mode.
+            </p>
+            <p style="margin-top: var(--space-sm);">
+                <strong>Driver issues:</strong> You may need to install CH340 or CP210x USB drivers. 
+                On macOS, also check System Settings → Privacy & Security to allow the driver.
+            </p>
+        </div>
+
+        <h2>Step 3: Download the Firmware</h2>
+        <p>
+            Download the correct firmware version for Heltec V2 from the Meshtastic GitHub releases.
+        </p>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Download v2.5.6 Firmware</h4>
+                <p>Get the ESP32 firmware package from:</p>
+                <pre><code>https://github.com/meshtastic/firmware/releases/download/v2.5.6.d55c08d/firmware-esp32-2.5.6.d55c08d.zip</code></pre>
+                <p style="margin-top: var(--space-sm);">
+                    <strong>If the link 404s:</strong> Go to the 
+                    <a href="https://github.com/meshtastic/firmware/releases" target="_blank">firmware releases page</a> 
+                    and search for tag <code>v2.5.6</code>.
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Extract and Identify Your Firmware</h4>
+                <p>Unzip the downloaded file. Look for files starting with <code>firmware-heltec-v2_0</code>.</p>
+                <p style="margin-top: var(--space-sm);">
+                    <strong>Important:</strong> Match the firmware filename to your board variant. 
+                    Check the label on your physical board—if it says "V2.0" use <code>firmware-heltec-v2_0-...</code>. 
+                    Record the exact filename you're flashing for future reference.
+                </p>
             </div>
         </div>
 
@@ -119,7 +198,8 @@
             <div class="info-box-title">📦 firmware-heltec-v2_0-2.5.6.d55c08d.bin</div>
             <p>
                 <strong>Complete factory image</strong> — Includes the bootloader, partition table, 
-                and Meshtastic application. Use this for a fresh install as it overwrites everything.
+                and Meshtastic application. Use this for a fresh install as it overwrites everything. 
+                Flash to address <code>0x0</code>.
             </p>
         </div>
 
@@ -133,35 +213,13 @@
             </p>
         </div>
 
-        <h2>Step 3: Connect Your Device</h2>
-
-        <div class="step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-                <h4>Connect via USB</h4>
-                <p>
-                    Plug your Heltec V2 into your computer using a USB cable. 
-                    Make sure it's a data cable, not a charge-only cable.
-                </p>
-            </div>
-        </div>
-
-        <div class="info-box warning">
-            <div class="info-box-title">⚠️ Driver Issues?</div>
-            <p>
-                If your device isn't detected, you may need to install the CH340 or CP210x USB 
-                drivers. On macOS, you might also need to allow the driver in System Preferences → 
-                Security & Privacy.
-            </p>
-        </div>
-
         <h2>Step 4: Flash the Firmware</h2>
         <p>
             Navigate to the folder containing your firmware file and run the flash command.
         </p>
 
         <div class="step">
-            <div class="step-number">5</div>
+            <div class="step-number">6</div>
             <div class="step-content">
                 <h4>Navigate to Firmware Folder</h4>
                 <pre><code>cd path/to/your/firmware/folder</code></pre>
@@ -169,13 +227,32 @@
         </div>
 
         <div class="step">
-            <div class="step-number">6</div>
+            <div class="step-number">7</div>
             <div class="step-content">
                 <h4>Flash the Complete Image (Fresh Install)</h4>
-                <pre><code>python -m esptool --chip esp32 write_flash 0x0 firmware-heltec-v2_0-2.5.6.d55c08d.bin</code></pre>
+                <p>Include the <code>--port</code> flag with your device's port:</p>
+                <pre><code># Mac example
+python -m esptool --port /dev/tty.usbserial-0001 --chip esp32 write_flash 0x0 firmware-heltec-v2_0-2.5.6.d55c08d.bin
+
+# Linux example
+python -m esptool --port /dev/ttyUSB0 --chip esp32 write_flash 0x0 firmware-heltec-v2_0-2.5.6.d55c08d.bin
+
+# Windows example
+python -m esptool --port COM3 --chip esp32 write_flash 0x0 firmware-heltec-v2_0-2.5.6.d55c08d.bin</code></pre>
+                <p style="margin-top: var(--space-sm);">
+                    This writes the complete factory image starting at address <code>0x0</code>.
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">8</div>
+            <div class="step-content">
+                <h4>Reset the Device</h4>
                 <p>
-                    This writes the complete factory image starting at address <code>0x0</code>. 
-                    The device will reboot automatically when complete.
+                    After flashing completes, press the <strong>RST</strong> (reset) button on your 
+                    Heltec to reboot it with the new firmware. If you were holding PRG for bootloader 
+                    mode, you can release it now.
                 </p>
             </div>
         </div>
@@ -183,24 +260,34 @@
         <div class="info-box">
             <div class="info-box-title">🔄 Upgrading Instead?</div>
             <p>If you're upgrading from a previous Meshtastic version and want to keep your config:</p>
-            <pre><code>python -m esptool --chip esp32 write_flash 0x10000 firmware-heltec-v2_0-2.5.6.d55c08d-update.bin</code></pre>
+            <pre><code>python -m esptool --port /dev/tty.usbserial-0001 --chip esp32 write_flash 0x10000 firmware-heltec-v2_0-2.5.6.d55c08d-update.bin</code></pre>
         </div>
 
         <h2>Step 5: Verify Installation</h2>
 
         <div class="step">
-            <div class="step-number">7</div>
+            <div class="step-number">9</div>
+            <div class="step-content">
+                <h4>Check Device Connectivity</h4>
+                <p>Confirm the device is responding after the flash:</p>
+                <pre><code>python -m esptool --port /dev/tty.usbserial-0001 chip_id</code></pre>
+                <p>This confirms esptool can still communicate with the ESP32.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">10</div>
             <div class="step-content">
                 <h4>Check the Display</h4>
                 <p>
-                    After flashing, the Heltec V2's OLED screen should show the Meshtastic logo 
-                    and then display the device's information.
+                    After resetting, the Heltec V2's OLED screen should show the Meshtastic logo 
+                    and then display the device's information (node name, battery, etc.).
                 </p>
             </div>
         </div>
 
         <div class="step">
-            <div class="step-number">8</div>
+            <div class="step-number">11</div>
             <div class="step-content">
                 <h4>Connect with Mobile App</h4>
                 <p>
@@ -210,22 +297,27 @@
             </div>
         </div>
 
+        <div class="info-box">
+            <div class="info-box-title">✓ Success Check</div>
+            <p>You're good to go if:</p>
+            <ul style="margin-top: var(--space-sm); margin-bottom: 0;">
+                <li><code>chip_id</code> command works after flashing</li>
+                <li>OLED display shows Meshtastic interface</li>
+                <li>Device appears in the Meshtastic mobile app</li>
+            </ul>
+        </div>
+
         <h2>Troubleshooting</h2>
 
         <div class="info-box warning">
-            <div class="info-box-title">Device Not Detected?</div>
+            <div class="info-box-title">Flash Failed or Timed Out?</div>
             <p>
-                Try a different USB cable (some are charge-only). On macOS/Linux, check 
-                <code>ls /dev/tty.*</code> to see if the device appears. You may need to 
-                install CH340 drivers.
+                <strong>Enter bootloader mode:</strong> Hold the <strong>PRG</strong> button while 
+                plugging in USB. Keep holding until you see "Connecting..." succeed in the terminal. 
+                Then release PRG and the flash should proceed.
             </p>
-        </div>
-
-        <div class="info-box warning">
-            <div class="info-box-title">Flash Failed?</div>
-            <p>
-                Hold the "PRG" button on the Heltec while plugging in USB to force bootloader 
-                mode. Then try flashing again.
+            <p style="margin-top: var(--space-sm);">
+                After flashing completes, press <strong>RST</strong> to reboot the device.
             </p>
         </div>
 
@@ -233,25 +325,51 @@
             <div class="info-box-title">Permission Denied (Linux)?</div>
             <p>
                 Add yourself to the <code>dialout</code> group: 
-                <code>sudo usermod -a -G dialout $USER</code> 
-                Then log out and back in.
+            </p>
+            <pre><code>sudo usermod -a -G dialout $USER</code></pre>
+            <p>Then log out and back in for the change to take effect.</p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Wrong Firmware Variant?</div>
+            <p>
+                If your device behaves strangely after flashing, double-check that you used the 
+                correct variant (<code>v2_0</code> vs <code>v2_1</code>) matching your board label.
             </p>
         </div>
 
-        <h2>Next Steps</h2>
+        <h2>Next Steps: First-Time Configuration</h2>
         <p>
-            Once your Heltec V2 is running Meshtastic, you can:
+            Before you start messaging, complete this essential setup in the Meshtastic app:
         </p>
-        <ul>
-            <li>Configure your node name and region in the mobile app</li>
-            <li>Set up private channels for your community</li>
-            <li>Deploy as a router node at a high point for extended coverage</li>
-            <li>Connect with other Meshtastic users in your area</li>
-        </ul>
+
+        <div class="materials-list">
+            <h3>Quick Start Checklist</h3>
+            <ul>
+                <li>
+                    <strong>Set your region:</strong> Go to Settings → LoRa → Region and select 
+                    <code>US</code> (for US_915 MHz band). Using the wrong region can cause legal 
+                    issues or prevent communication.
+                </li>
+                <li>
+                    <strong>Understand channel privacy:</strong> The default "LongFast" channel is 
+                    <em>not private</em>—anyone with Meshtastic can see messages. Create a private 
+                    channel with a custom encryption key for secure communication.
+                </li>
+                <li>
+                    <strong>Test with a second node:</strong> If you have two devices, confirm you 
+                    can send a message between them at close range before deploying further.
+                </li>
+                <li>
+                    <strong>Set your node name:</strong> Go to Settings → User and set a short name 
+                    (4 chars) and long name so others can identify your node.
+                </li>
+            </ul>
+        </div>
 
         <p>
-            Check out the full <a href="meshtastic-mesh.html">Meshtastic Mesh Network tutorial</a> 
-            for detailed guidance on setting up your mesh network.
+            Check out <a href="meshtastic-mesh.html">Transmission #004: Developing a Decentralized Mesh Network</a> 
+            for detailed guidance on channels, router nodes, and community deployment.
         </p>
 
         <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
@@ -261,7 +379,7 @@
 
     <footer class="main-footer">
         <div class="footer-content">
-            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-motto">"Glitch in the signal. Ghosts in the code. Dispatches from the Lab."</p>
             <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
         </div>
         <div class="footer-decoration">

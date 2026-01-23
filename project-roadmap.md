@@ -61,7 +61,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - [ ] Building a solar-powered Raspberry Pi
   - [ ] Introduction to Ham Radio for beginners
 - [ ] Add a blog/articles section for shorter posts
-- [ ] Create dedicated workshop detail pages
+- [x] Create past workshops archive page (workshops/past.html)
 - [ ] Add workshop booking/scheduling system
 - [x] Create "About Me" expanded page with background/journey (about.html)
 - [x] Add Research & Publications section (on index.html)
@@ -75,7 +75,6 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
 - [ ] Add tutorial thumbnail images
 - [ ] Add screenshots/images to project detail pages
 - [ ] Create custom icons to replace emoji
-- [ ] Add dark/light theme toggle (CSS only)
 - [ ] Improve print styles for tutorials
 
 ### Technical
@@ -183,7 +182,7 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - Clean separation of concerns
 
 ### v1.7.0 (January 23, 2026)
-- **New Tutorial**: tutorials/meshtastic-heltec-v2.html
+- **New Tutorial**: tutorials/meshtastic-heltec-v2.html (Transmission #005)
   - Step-by-step guide for flashing Meshtastic v2.5.6 to Heltec LoRa 32 V2
   - Command-line approach using esptool
   - Explains complete vs update firmware files
@@ -191,3 +190,30 @@ Created the developer portfolio with retro-futuristic NASA-punk aesthetic.
   - Links to main Meshtastic mesh tutorial
 - **Integration**
   - Added LinkedIn profile link (https://www.linkedin.com/in/phyllisbeck/)
+
+### v1.8.0 (January 23, 2026)
+- **Tutorials Index Page**: tutorials/index.html
+  - Dedicated page listing all tutorials with same card styling
+  - Homepage now shows 3 most recent tutorials with "View All Tutorials →" link
+  - Added `.section-footer` and `.view-more-link` CSS styling
+  - Added `.page-header` styling for index pages
+- **Tutorial Enhancements**
+  - Added version numbers and "Last Updated" dates to all tutorial headers
+  - New `.article-version-info` CSS styling with teal labels
+  - Renamed tutorials with "Transmission #XXX:" prefix (001-005)
+  - Updated Heltec V2 tutorial (v1.1) with:
+    - Success checks after each major step
+    - Safer V2 support claim (community-supported/legacy)
+    - Port examples for Mac/Linux/Windows in flash commands
+    - `chip_id` connectivity check before flashing
+    - Concrete bootloader mode instructions
+    - Firmware download fallback instructions
+    - First-time configuration checklist
+- **Workshops Reorganization**
+  - Created workshops/past.html for past workshop archive
+  - Homepage shows only available workshops with "View Past Workshops →" link
+  - Added new "Meshtastic & Off-Grid Communication" available workshop
+- **Branding Updates**
+  - Renamed "Tutorials & Guides" to "GlitchCraft Tutorials & Guides"
+  - Updated site motto to "Glitch in the signal. Ghosts in the code. Dispatches from the Lab."
+  - Updated across all 14 HTML files, THEME-GUIDE.md, and README.md

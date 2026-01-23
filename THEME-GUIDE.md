@@ -326,7 +326,7 @@ pre code {
     
     <footer class="main-footer">
         <div class="footer-content">
-            <p class="footer-motto">"Where the light gathers"</p>
+            <p class="footer-motto">"Glitch in the signal. Ghosts in the code. Dispatches from the Lab."</p>
             <p class="footer-info">Dr. Phyllis J. Beck • Building for Resilience</p>
         </div>
         <div class="footer-decoration">
@@ -348,7 +348,7 @@ When continuing this project:
 3. **Fonts:** Courier New for UI, Georgia for body text
 4. **Style:** Uppercase headers, glowing borders, animated starfield
 5. **Tech:** Pure HTML/CSS only, no JavaScript frameworks
-6. **Motto:** "Where the light gathers"
+6. **Motto:** "Glitch in the signal. Ghosts in the code. Dispatches from the Lab."
 7. **Purpose:** Developer portfolio showcasing off-grid/resilient tech tutorials
 
 Maintain consistency with existing `styles.css` — all visual patterns are defined there.

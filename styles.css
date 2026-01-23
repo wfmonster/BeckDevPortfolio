@@ -682,6 +682,56 @@ body {
     color: var(--apollo-gold);
 }
 
+.section-footer {
+    text-align: center;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.view-more-link {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--retro-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: var(--space-sm) var(--space-lg);
+    border: 1px solid var(--retro-teal);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.view-more-link:hover {
+    color: var(--apollo-gold);
+    border-color: var(--apollo-gold);
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+}
+
+/* ---------- Page Header ---------- */
+.page-header {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-header .section-header {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: var(--space-sm);
+}
+
+.page-header h1 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--apollo-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0;
+}
+
 /* ---------- Tutorial Cards ---------- */
 .tutorials-grid {
     display: grid;
@@ -1169,6 +1219,29 @@ body {
     padding: var(--space-xl) var(--space-md);
     border-bottom: 1px solid var(--border-color);
     background: linear-gradient(180deg, rgba(244, 160, 32, 0.1) 0%, transparent 100%);
+}
+
+.article-version-info {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-md);
+    opacity: 0.8;
+}
+
+.article-version-info span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.article-version-info .label {
+    color: var(--retro-teal);
 }
 
 .article-header h1 {
