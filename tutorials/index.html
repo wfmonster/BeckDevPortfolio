@@ -65,11 +65,25 @@
             </p>
         </header>
 
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <span class="filter-label">Filter by:</span>
+            <div class="filter-tags">
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="meshtastic">Meshtastic</button>
+                <button class="filter-tag" data-filter="raspberry-pi">Raspberry Pi</button>
+                <button class="filter-tag" data-filter="n8n">n8n</button>
+                <button class="filter-tag" data-filter="off-grid">Off-Grid</button>
+                <button class="filter-tag" data-filter="beginner">Beginner</button>
+                <button class="filter-tag" data-filter="intermediate">Intermediate</button>
+            </div>
+        </div>
+
         <!-- Tutorials Grid -->
         <section id="tutorials">
             <div class="tutorials-grid">
                 <!-- Tutorial: n8n on Raspberry Pi -->
-                <a href="n8n-raspberry-pi.html" class="tutorial-card tilt-card">
+                <a href="n8n-raspberry-pi.html" class="tutorial-card tilt-card" data-tags="n8n raspberry-pi off-grid intermediate">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">🥧</div>
                         <div class="tutorial-content">
@@ -92,7 +106,7 @@
                 </a>
 
                 <!-- Tutorial: n8n on Hostinger VPS -->
-                <a href="n8n-hostinger-vps.html" class="tutorial-card tilt-card">
+                <a href="n8n-hostinger-vps.html" class="tutorial-card tilt-card" data-tags="n8n meshtastic beginner">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">⚡</div>
                         <div class="tutorial-content">
@@ -115,7 +129,7 @@
                 </a>
 
                 <!-- Tutorial: Meshtastic Heltec V2 -->
-                <a href="meshtastic-heltec-v2.html" class="tutorial-card tilt-card">
+                <a href="meshtastic-heltec-v2.html" class="tutorial-card tilt-card" data-tags="meshtastic beginner">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">📻</div>
                         <div class="tutorial-content">
@@ -138,7 +152,7 @@
                 </a>
 
                 <!-- Tutorial: Meshtastic Mesh Network -->
-                <a href="meshtastic-mesh.html" class="tutorial-card tilt-card">
+                <a href="meshtastic-mesh.html" class="tutorial-card tilt-card" data-tags="meshtastic off-grid intermediate">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">📡</div>
                         <div class="tutorial-content">
@@ -161,7 +175,7 @@
                 </a>
 
                 <!-- Tutorial: GitHub & Netlify Guide -->
-                <a href="github-netlify-guide.html" class="tutorial-card tilt-card">
+                <a href="github-netlify-guide.html" class="tutorial-card tilt-card" data-tags="beginner">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">🚀</div>
                         <div class="tutorial-content">
@@ -184,7 +198,7 @@
                 </a>
 
                 <!-- Tutorial: Raspberry Pi NAS -->
-                <a href="raspberry-pi-nas.html" class="tutorial-card tilt-card">
+                <a href="raspberry-pi-nas.html" class="tutorial-card tilt-card" data-tags="raspberry-pi intermediate">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">🥧</div>
                         <div class="tutorial-content">
@@ -207,7 +221,7 @@
                 </a>
 
                 <!-- Tutorial: Off-Grid Community Hub -->
-                <a href="community-hub.html" class="tutorial-card tilt-card">
+                <a href="community-hub.html" class="tutorial-card tilt-card" data-tags="off-grid beginner">
                     <div class="tutorial-card-inner">
                         <div class="tutorial-icon">🌐</div>
                         <div class="tutorial-content">
@@ -229,6 +243,11 @@
                     </div>
                 </a>
             </div>
+            
+            <!-- No Results Message -->
+            <div class="no-results" style="display: none;">
+                <p>No tutorials match this filter. <button class="filter-reset">Show all tutorials</button></p>
+            </div>
         </section>
     </main>
 
@@ -243,5 +262,57 @@
     </footer>
 
     <script src="../effects.js"></script>
+    <script>
+    // Tutorial Filter System
+    (function() {
+        const filterButtons = document.querySelectorAll('.filter-tag');
+        const tutorialCards = document.querySelectorAll('.tutorial-card');
+        const noResults = document.querySelector('.no-results');
+        const resetButton = document.querySelector('.filter-reset');
+
+        function filterTutorials(filter) {
+            let visibleCount = 0;
+
+            tutorialCards.forEach(card => {
+                const tags = card.dataset.tags || '';
+                const shouldShow = filter === 'all' || tags.includes(filter);
+                
+                if (shouldShow) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Show/hide no results message
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        }
+
+        // Filter button click handlers
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active state
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Apply filter
+                const filter = button.dataset.filter;
+                filterTutorials(filter);
+            });
+        });
+
+        // Reset button handler
+        if (resetButton) {
+            resetButton.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector('[data-filter="all"]').classList.add('active');
+                filterTutorials('all');
+            });
+        }
+    })();
+    </script>
 </body>
 </html>

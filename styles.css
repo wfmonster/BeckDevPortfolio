@@ -747,6 +747,88 @@ body {
     margin: 0;
 }
 
+/* ---------- Filter Bar ---------- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-md);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.filter-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.filter-tag {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: var(--space-xs) var(--space-sm);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+}
+
+.filter-tag:hover {
+    color: var(--retro-teal);
+    border-color: var(--retro-teal);
+}
+
+.filter-tag.active {
+    color: var(--space-black);
+    background: var(--apollo-gold);
+    border-color: var(--apollo-gold);
+}
+
+.tutorial-card.hidden {
+    display: none;
+}
+
+.no-results {
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--text-secondary);
+}
+
+.no-results p {
+    margin: 0;
+}
+
+.filter-reset {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--retro-teal);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    margin-left: var(--space-xs);
+}
+
+.filter-reset:hover {
+    color: var(--apollo-gold);
+}
+
 /* ---------- Tutorial Cards ---------- */
 .tutorials-grid {
     display: grid;
